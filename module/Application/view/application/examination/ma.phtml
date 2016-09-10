@@ -1,0 +1,61 @@
+<div class="row">
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Module allocations</h3>
+            <div class="panel-body">
+            
+            <hr>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Student module allocation</div>
+                        <div class="panel-body">
+                             <div class="col col-md-3"><img src="<?php echo $this->basePath(); ?>/img/modules.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                                Allows allocation of modules to students.
+                                <p>&nbsp;</p>
+                                <a href="<?php echo $this->url("administration",array("action"=>"users")); ?>" class="btn btn-sm btn-info">Allocate</a>
+                                
+                            </div>
+                        </div>    
+                    </div>
+                    
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Lecturer module allocation</div>
+                        <div class="panel-body">
+                             <div class="col col-md-3"><img src="<?php echo $this->basePath(); ?>/img/student_alloc.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                               Allows assignment of modules to lecturer per semester/academic period.
+                                <p></p>
+                                <a href="<?php echo $this->url("examination",array("action"=>"lma")); ?>" class="btn btn-sm btn-info">Allocate</a>
+                                
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+               <div class="col-md-4">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Requested module allocation</div>
+                        <div class="panel-body">
+                             <div class="col col-md-3"><img src="<?php echo $this->basePath(); ?>/img/modules.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                                Allows allocation of module to a lecturer requested by another department
+                                <p></p>
+                                <a href="<?php echo $this->url("examination",array("action"=>"lsm")); ?>" class="btn btn-sm btn-info">Allocate</a>
+                                
+                            </div>
+                        </div>    
+                    </div>
+                    
+                </div>
+            </div>
+
+            </div>
+                </div>
+        </div>
+    </div>

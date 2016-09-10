@@ -1,0 +1,33 @@
+<div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+            <h3 class="page-header">Institution information</h3>
+            <div class="panel-body">
+           
+            <hr>
+<table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th width="200">Name</th>
+        <th width="200">Principal</th>
+        <th width="200">Address</th>
+        <th width="200">Phone number</th>
+        <th>Email address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td class="text-center"><?php echo join("<br>",array($institution->getLongName(),  ucwords(strtolower($institution->getShortName())))); ?> </td>
+        <td><?php echo join("<br>",array($institution->getPrincipalName(),  $institution->getQualifications())); ?></td>
+        <td><?php echo join("<br>",array($institution->getAddressLine1(),  $institution->getAddressLine2(),  $institution->getAddressLine3(),  $institution->getAddressLine4())); ?></td>
+        <td><?php echo $institution->getPhoneNumber(); ?></td>
+        <td><?php echo $institution->getEmailAddress(); ?></td>
+      </tr>
+      
+    </tbody>
+</table>
+            </div>
+                </div>
+        </div>
+</div>
+        

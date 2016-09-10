@@ -1,0 +1,70 @@
+<div class="row">
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Selection list</h3>
+            <div class="panel-body">
+            
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <h4><i class="glyphicon glyphicon-check"></i> <?php echo $msg; ?></h4>
+            </div>
+            <?php
+            }
+            ?>
+            <div class="row">
+                <div class="col-md-4">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">New selection list</div>
+                        <div class="panel-body">
+                             <div class="col col-md-4"><img src="<?php echo $this->basePath(); ?>/img/upload.png" width="70" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-8">
+                                Select this task to upload a new selection list to the system.
+                                <p></p>
+                                <a href="<?php echo $this->url("admission",array("action"=>"uploadselectionlist")); ?>" class="btn btn-sm btn-info">Upload new selection list</a>
+                                
+                            </div>
+                        </div>    
+                    </div>
+                    
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Manage selection list</div>
+                        <div class="panel-body">
+                             <div class="col col-md-4"><img src="<?php echo $this->basePath(); ?>/img/assign.png" width="70" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-8">
+                                Selected students ought to be assigned registration numbers.
+                                <p></p>
+                                <a href="<?php echo $this->url("admission",array("action"=>"grn")); ?>" class="btn btn-sm btn-info">Generate registration numbers</a>
+                                
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Selected students</div>
+                        <div class="panel-body">
+                            <div class="col col-md-4"><img src="<?php echo $this->basePath(); ?>/img/list.png" width="70" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-8">
+                                Click to view selected list
+                                <p>&nbsp;</p>
+                                <br>
+                                <a href="<?php echo $this->url("admission",array("action"=>"vsl")); ?>" class="btn btn-sm btn-info">View list</a>
+                                
+                            </div>
+                                
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            </div>
+                </div>
+        </div>
+    </div>

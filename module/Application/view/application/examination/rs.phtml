@@ -1,0 +1,40 @@
+<div class="row">
+    <?php
+    $class = (count($stages)==4)?"col-md-12":"col-md-10 col-md-offset-1";
+    ?>
+        <div class="col <?php echo $class; ?>">
+            <div class="panel panel-default">
+            <h3 class="page-header">Grade sign offs</h3>
+            <div class="panel-body">
+            
+            <hr>
+            
+            <div class="row">
+                <?php
+                foreach($stages as $stage){
+                ?>
+                <div class="col-md-4">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><?php echo $stage->getFkRoleid()->getDescription(); ?></div>
+                        <div class="panel-body">
+                             <div class="col col-md-3"><img src="<?php echo $this->basePath(); ?>/img/check.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                                Grades sign off management.
+                                <p>&nbsp;</p>
+                                <a href="<?php echo $this->url("examination",array("action"=>"signoff")); ?>" class="btn btn-sm btn-info">Manage</a>
+                                
+                            </div>
+                        </div>    
+                    </div>
+                    
+                </div>
+                <?php
+                }
+                ?>
+            </div>
+
+            </div>
+                </div>
+        </div>
+    </div>

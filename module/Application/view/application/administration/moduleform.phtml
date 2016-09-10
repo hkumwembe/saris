@@ -1,0 +1,52 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header">Module details</h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $name = (!empty($details))?$details->getModuleName():$form->get('Module')->get('moduleName')->getValue();
+    $code = (!empty($details))?$details->getModuleCode():$form->get('Module')->get('moduleCode')->getValue();
+   // $user = (!empty($details))?$details->getFkStaffid():$form->get('Faculty')->get('fkStaffid')->getValue();
+    $id   = (!empty($details))?$details->getPkModuleid():$form->get('Module')->get('pkModuleid')->getValue();
+ ?>
+                            
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Module')->get('moduleName')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Module')->get('moduleName')->setValue($name)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Module')->get('moduleName')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Module')->get('moduleCode')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Module')->get('moduleCode')->setValue($code));
+                 echo $this->formHidden($form->get('Module')->get('pkModuleid')->setValue($id));
+           ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Module')->get('moduleCode')); ?></div>
+    </div>
+                           
+
+    <div class="form-group">   
+       <div class="col-sm-3"></div>
+       <div class="col-sm-5">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("administration",array("action"=>"modules")); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+       <div class="col-sm-4"></div>
+    </div>                            
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

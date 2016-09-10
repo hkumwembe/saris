@@ -1,0 +1,108 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Classmodule
+ *
+ * @ORM\Table(name="classmodule", indexes={@ORM\Index(name="classmodulefk_idx", columns={"FK_MODULEID"}), @ORM\Index(name="classfk_idx", columns={"FK_CLASSID"}), @ORM\Index(name="parentfk_idx", columns={"PARENTMODULE"}), @ORM\Index(name="noduleacademicperiod_idx", columns={"FK_ACADEMICPERIOD"})})
+ * @ORM\Entity
+ */
+class Classmodule
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_CLASSMODULEID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkClassmoduleid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CWKWEIGHT", type="integer", nullable=true)
+     */
+    private $cwkweight = '60';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="EXWEIGHT", type="integer", nullable=true)
+     */
+    private $exweight = '40';
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="IS_PROJECT", type="boolean", nullable=true)
+     */
+    private $isProject = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="IS_PREREQUISITEFOR", type="string", length=255, nullable=true)
+     */
+    private $isPrerequisitefor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="SCHEME", type="integer", nullable=true)
+     */
+    private $scheme;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="IS_CORE", type="smallint", nullable=true)
+     */
+    private $isCore;
+
+    /**
+     * @var \Application\Entity\Classes
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Classes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_CLASSID", referencedColumnName="PK_CLASSID")
+     * })
+     */
+    private $fkClassid;
+
+    /**
+     * @var \Application\Entity\Module
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Module")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_MODULEID", referencedColumnName="PK_MODULEID")
+     * })
+     */
+    private $fkModuleid;
+
+    /**
+     * @var \Application\Entity\Academicyear
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Academicyear")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_ACADEMICPERIOD", referencedColumnName="PK_ACADEMICPERIODID")
+     * })
+     */
+    private $fkAcademicperiod;
+
+    /**
+     * @var \Application\Entity\Classmodule
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Classmodule")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="PARENTMODULE", referencedColumnName="PK_CLASSMODULEID")
+     * })
+     */
+    private $parentmodule;
+
+
+}
+

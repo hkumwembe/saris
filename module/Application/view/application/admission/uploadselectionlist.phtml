@@ -1,0 +1,43 @@
+<div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+            <h3 class="page-header">Upload selection list</h3>
+            <div class="panel-body">
+            
+            <hr>
+            
+            <div class="row">
+                <?php
+                $uploadform->setAttributes(array('id'=>'formupload'))->prepare();
+                echo $this->form()->openTag($uploadform);
+                ?>
+                
+                    
+                    <div class="form-group">   
+                        <ul>
+                            <li>The file to be uploaded should be formated like the one Here</li>
+                            <li>Click the "Browse" button to browse for the csv file containing the students list. Select the file you want to upload.</li>
+                            <li>Click the 'Upload file' button to start the uploading process.</li>
+                            <li><strong>Note:</strong> The file being uploaded should not have the <strong>headers</strong> i.e <strong>Surname</strong></li>
+                        </ul>
+                    </div>
+                    
+                   
+                    <div class="row">   
+                       <div class="col col-sm-4 col-md-offset-1"><?php echo $this->formElement($uploadform->get('File')->get('filename')); ?></div>
+                       <div class="col col-sm-6">
+                           
+                           <input type="submit" name="btnupload" class="btn btn-sm btn-info" value="Upload File" />
+                           <a href="<?php echo $this->url("admission",array("action"=>"selectionlist")); ?>" class="btn btn-sm btn-info">Cancel</a>
+                       </div>
+                    </div>                            
+                <?php
+                echo $this->form()->closeTag();
+                ?>
+                
+            </div>
+
+            </div>
+                </div>
+        </div>
+    </div>

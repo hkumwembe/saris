@@ -1,0 +1,53 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Hostels</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("accommodation",array("action"=>"hostelform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add hostel</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+     <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+         <th>Name</th>
+        <th>Category</th>
+        <th>Campus</th>
+        <th width="120"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($hostels as $hostel){
+      ?>
+
+      <tr>
+       
+        <td><?php echo $hostel->getHostelName(); ?></td>
+        <td><?php echo $hostel->getFkHtid()->getDescription(); ?></td>
+        <td><?php echo !empty($hostel->getFkCampusid())?$hostel->getFkCampusid()->getCampusName():""; ?></td>
+        <td>
+            <a href="<?php echo $this->url("accommodation",array("action"=>"hostelform","id"=>$hostel->getPkHostelid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php echo $this->url("accommodation",array("action"=>"rooms","id"=>$hostel->getPkHostelid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-asterisk"></i></a>   
+            <a href="<?php //echo $this->url("administration",array("action"=>"moduleform","id"=>$module->getPkModuleid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>   
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+        

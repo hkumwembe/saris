@@ -1,0 +1,47 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Dropoutstatus
+ *
+ * @ORM\Table(name="dropoutstatus")
+ * @ORM\Entity
+ */
+class Dropoutstatus
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_DSTATUSID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkDstatusid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TITLE", type="string", length=200, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CANBEPROGRESSED", type="text", nullable=true)
+     */
+    private $canbeprogressed;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ABBREVIATION", type="string", length=7, nullable=true)
+     */
+    private $abbreviation;
+
+
+}
+

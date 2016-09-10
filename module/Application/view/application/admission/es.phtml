@@ -1,0 +1,123 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="panel panel-default">
+            <h3 class="page-header">Admission reports: Enrollment</h3>
+            <div class="panel-body">
+            <?php
+                $searchform->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+                echo $this->form()->openTag($searchform);
+                ?>
+                
+                <div class="alert alert-info">
+                    <table>
+                        <tr>
+                            <td width="5%" class="text-right"><label>Report:</label></td>
+                            <td width="15%"><?php echo $this->formElement($searchform->get('report')); ?></td>
+                            <td width="10%" class="text-right" ><label>Student type:</label></td>
+                            <td width="15%"><?php echo $this->formElement($searchform->get('studenttype')); ?></td>
+                            <td width="15%" class="text-right"><label>Academic period:</label></td>
+                            <td width="10%"><?php echo $this->formElement($searchform->get('academicyear')); ?></td>
+                            <td width="10%" class="text-right"><label>Semester:</label></td>
+                            <td width="10%"><?php echo $this->formElement($searchform->get('semester')); ?></td>
+                            <td width="10%" class="text-right"><button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Show</button></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                <?php
+                echo $this->form()->closeTag();
+                ?>    
+            <hr>
+            <h4 class="text-danger text-uppercase"><?php echo $title; ?></h4>
+            <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+          <th class="text-center info"></th>
+        <th colspan="3" class="text-center info">EXPECTED</th>
+        <th colspan="3" class="text-center info">REGISTERED</th>
+        <th colspan="3" class="text-center info">NOT REGISTERED</th>
+        <th colspan="3" class="text-center info">DROPOUT</th>
+      </tr>
+      <tr>
+        <th class="text-center"></th>
+        <th class="text-center">Female</th>
+        <th class="text-center">Male</th>
+        <th class="text-center">Total</th>
+        <th class="text-center">Female</th>
+        <th class="text-center">Male</th>
+        <th class="text-center">Total</th>
+        <th class="text-center">Female</th>
+        <th class="text-center">Male</th>
+        <th class="text-center">Total</th>
+       <th class="text-center">Female</th>
+        <th class="text-center">Male</th>
+        <th class="text-center">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $tfe = $tme = $tfr = $tmr = $tfn = $tmn = $tfd = $tmd = 0;
+      foreach($content as $reportcontent){
+          $tfe += $reportcontent['EF'];
+          $tme += $reportcontent['EM'];
+          $tmr += $reportcontent['RM'];
+          $tfr += $reportcontent['RF'];
+          $tmn += $reportcontent['NM'];
+          $tfn += $reportcontent['NF'];
+          $tmd += $reportcontent['DM'];
+          $tfd += $reportcontent['DF'];
+          
+          if($reporttype==1){
+              $code  = sprintf("Year %s",$reportcontent['CYEAR']);
+          }elseif($reporttype==2){
+              $code  = $reportcontent['CCODE'];
+          }elseif($reporttype==3){
+              $code  = $reportcontent['PCODE'];
+          }elseif($reporttype==4){
+              $code  = $reportcontent['DCODE'];
+          }elseif($reporttype==5){
+              $code  = $reportcontent['FCODE'];
+          }
+     ?>
+
+      <tr>
+         <th class="text-left"><?php echo $code; ?></th>
+        <td class="text-center"><?php echo $reportcontent['EF']; ?></td>
+        <td class="text-center"><?php echo $reportcontent['EM']; ?></td>
+        <td class="text-center"><strong><?php echo $reportcontent['EF']+$reportcontent['EM']; ?></strong></td>
+        <td class="text-center"><?php echo $reportcontent['RF']; ?></td>
+        <td class="text-center"><?php echo $reportcontent['RM']; ?></td>
+        <td class="text-center"><strong><?php echo $reportcontent['RF']+$reportcontent['RM']; ?></strong></td>
+        <td class="text-center"><?php echo $reportcontent['NF']; ?></td>
+        <td class="text-center"><?php echo $reportcontent['NM']; ?></td>
+        <td class="text-center"><strong><?php echo $reportcontent['NF']+$reportcontent['NM']; ?></strong></td>
+        <td class="text-center"><?php echo $reportcontent['DF']; ?></td>
+        <td class="text-center"><?php echo $reportcontent['DM']; ?></td>
+        <td class="text-center"><strong><?php echo $reportcontent['DF']+$reportcontent['DM']; ?></strong></td>
+      </tr>
+      <?php
+      }
+      ?>
+      <tr>
+        <td class="text-left"></td>
+        <td class="text-center warning"><?php echo $tfe; ?></td>
+        <td class="text-center warning"><?php echo $tme; ?></td>
+        <td class="text-center warning"><strong><?php echo $tfe+$tme; ?></strong></td>
+        <td class="text-center warning"><?php echo $tfr; ?></td>
+        <td class="text-center warning"><?php echo $tmr; ?></td>
+        <td class="text-center warning"><strong><?php echo $tfr+$tmr; ?></strong></td>
+        <td class="text-center warning"><?php echo $tfn; ?></td>
+        <td class="text-center warning"><?php echo $tmn; ?></td>
+        <td class="text-center warning"><strong><?php echo $tfn+$tmn; ?></strong></td>
+        <td class="text-center warning"><?php echo $tfd; ?></td>
+        <td class="text-center warning"><?php echo $tmd; ?></td>
+        <td class="text-center warning"><strong><?php echo $tfd+$tmd; ?></strong></td>
+      </tr>
+    </tbody>
+</table>
+                
+            </div>
+                </div>
+        </div>
+</div>
+        

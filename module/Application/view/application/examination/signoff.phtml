@@ -1,0 +1,185 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $("#description").html("This process will compile average grades for the students. <br> Click <strong>Start button</strong> to run the process.");
+        $("#btngenerate").html("Start");
+        
+        $("#btngenerate").click(function(){
+            $("#btngenerate").prop("disabled",true);
+            $("#description").html("This process may take long, please wait......");
+            $("#progress").html("<center><img src='<?php echo $this->basePath(); ?>/img/ajax-loader.gif' /></center>");
+            
+            $.ajax({
+                type:'POST',
+                url:'/smis/public/examination/compilegrades',
+                data:"classid="+$("#classid").val()+"&period="+$("#period").val()+"&level=2",
+                dataType:'TEXT',
+                success: function(result){
+                    alert(result);
+                    return false;
+                    $("#description").html(result.title);
+                    $("#progress").html("");
+                    location.reload();
+                    return false;
+                }  
+             });
+        });
+    
+    $('#confirmmodal').on('hide.bs.modal', function () {
+        $("#btngenerate").removeAttr("disabled");
+        $("#progress").html("");
+    });
+        
+        
+        
+        
+    });
+</script>
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s: %s %s %s",$department->getDeptName(),$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?></h3>
+            <div class="panel-body">
+                <?php
+                $searchform->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+                echo $this->form()->openTag($searchform);
+                ?>
+                
+                <div class="alert alert-info">
+                    <div class="row">
+                    <div class="col-xs-1"><label>Program:</label></div>
+                    <div class="col-xs-2"> <?php echo $this->formElement($searchform->get('program')); ?>
+                    </div>
+                   <div class="col-xs-1"><label>Class:</label></div> 
+                   <div class="col-xs-2"> <?php echo $this->formElement($searchform->get('class')); ?>
+                   </div>
+                   <div class="col-xs-1"><button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Show</button></div> 
+                    </div>
+                </div>
+                <?php
+                echo $this->form()->closeTag();
+                ?>
+            <hr>
+            <?php
+            if(!empty($class)){
+            ?>
+            <input type="hidden" id="period" value="<?php echo $period->getPkAcademicperiodid(); ?>" />
+            <input type="hidden" id="classid" value="<?php echo $class->getPkClassid(); ?>" />
+            <div class="row"> 
+                <div class="col col-md-12">
+                    <legend class="text-primary"><?php echo sprintf("%s (%s)",$class->getClassName(),$class->getClassCode()); ?></legend>
+                <div class="col col-md-8">
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Class</th>
+        <th>Module</th>
+        <th width="60">Total</th>
+        <th width="70">Received</th>
+        <th width="90">Signed off</th>
+        <th width="110">Status</th>
+        <th width="60"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $count = 0;
+      $expected = 0;
+      foreach($modules as $module){
+          $count++;
+          $status = $cssclass = "";
+          //$inhand = $total[$module->getPkClassmoduleid()] - $received[$module->getPkClassmoduleid()];
+          if($received[$module->getPkClassmoduleid()]==0 && $signedoff[$module->getPkClassmoduleid()]==0){
+              $expected++;
+              $status = "None received";
+              $cssclass = "#00000";
+          }elseif(($total[$module->getPkClassmoduleid()] == $received[$module->getPkClassmoduleid()]) && $signedoff[$module->getPkClassmoduleid()]==0){
+              $status = "Outstanding";
+              $cssclass = "#FF000";
+          }elseif(($total[$module->getPkClassmoduleid()] ==  $signedoff[$module->getPkClassmoduleid()])){
+              $status = "Signed off";
+              $cssclass = "#009900"; 
+          }elseif(($total[$module->getPkClassmoduleid()] !=  $received[$module->getPkClassmoduleid()] && $received[$module->getPkClassmoduleid()] != 0)){
+              $status = "Partly recvd";
+              $cssclass = "#CCCCC"; 
+          }elseif(($signedoff[$module->getPkClassmoduleid()] !=  $received[$module->getPkClassmoduleid()] && $signedoff[$module->getPkClassmoduleid()] != 0)){
+              $status = "Pending";
+              $cssclass = "#FF9900"; 
+          }
+      ?>
+
+      <tr>
+          <td><?php echo $count; ?></td>
+          <td><?php echo $module->getFkClassid()->getClassCode(); ?></td>
+          <td><?php echo sprintf("%s (%s)",$module->getFkModuleid()->getModuleName(),$module->getFkModuleid()->getModuleCode()); ?></td>
+          <td ><h4><?php echo $total[$module->getPkClassmoduleid()]; ?></h4></td>
+          <td><h4><?php echo $received[$module->getPkClassmoduleid()]; ?></h4></td>
+          <td><h4><?php echo $signedoff[$module->getPkClassmoduleid()]; ?></h4></td>
+          <td width="60"  bgcolor="<?php echo $cssclass; ?>"><font color="#FFFFFF"><?php echo $status; ?></font></td>
+          <td>
+           <?php
+           if($status != "None received"){
+           ?>
+              <a href="<?php echo $this->url("examination",array("action"=>"mmm","id"=>$module->getPkClassmoduleid(),"subparam"=>2)); ?>" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-list"></i></a>
+           <?php
+           }else{
+           ?>
+              <button disabled class="btn btn-sm btn-success"><i class="glyphicon glyphicon-list"></i></button>
+           <?php
+           }
+           ?>
+          </td>
+      </tr>
+      
+      <?php
+      
+      }
+      
+      ?>
+    </tbody>
+</table>
+                </div>
+                
+                <div class="col col-md-4">
+                    <div class="col-md-12 alert alert-warning pull-right">
+                        <?php
+                        if($expected != $count){
+                            if(count($averages)<=0){
+                        ?>
+                        <a data-toggle="modal" data-target="#confirmmodal" class="btn btn-sm btn-default btn-block">Compile grades</a>
+                        <?php
+                            }else{
+                        ?>
+                        <a href="<?php echo $this->url("rpt",array("action"=>"cps"));?>" target="_blank" class="btn btn-sm btn-warning btn-block">View class report</a>
+                        <a class="btn btn-sm btn-warning btn-block">Detailed performance</a>
+                        
+                        <a class="btn btn-sm btn-warning btn-block">Signoff grades</a>
+                        <a class="btn btn-sm btn-success btn-block">Class summary</a>
+                        <a data-toggle="modal" data-target="#confirmmodal" class="btn btn-sm btn-default btn-block">Recompile grades</a>
+                        <a class="btn btn-sm btn-warning btn-block">Grade book</a>
+                        <a href="<?php echo $this->url("rpt",array("action"=>"sp"));?>" target="_blank" class="btn btn-sm btn-warning btn-block">Subject performance</a>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+            </div>
+            <?php
+            }
+            ?>
+            
+            
+            
+            </div>
+                </div>
+        </div>
+</div>

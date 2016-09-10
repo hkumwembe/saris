@@ -1,0 +1,50 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Faculty
+ *
+ * @ORM\Table(name="faculty", uniqueConstraints={@ORM\UniqueConstraint(name="FACULTY_CODE_UNIQUE", columns={"FACULTY_CODE"})}, indexes={@ORM\Index(name="deanfk_idx", columns={"FK_STAFFID"})})
+ * @ORM\Entity
+ */
+class Faculty
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_FACULTYID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkFacultyid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FACULTY_CODE", type="string", length=10, nullable=false)
+     */
+    private $facultyCode = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FACULTY_NAME", type="string", length=45, nullable=false)
+     */
+    private $facultyName = '';
+
+    /**
+     * @var \Application\Entity\Staff
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Staff")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_STAFFID", referencedColumnName="PK_STAFFID")
+     * })
+     */
+    private $fkStaffid;
+
+
+}
+

@@ -1,0 +1,77 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Academic sessions</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("administration",array("action"=>"periodform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add New</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Title/year</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th width="165"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($periods as $period){
+      ?>
+
+      <tr>
+        <td><?php echo $period->getAcyr(); ?></td>
+        <td><?php echo date_format($period->getStartDate(),"d M Y"); ?></td>
+        <td><?php echo date_format($period->getEndDate(),"d M Y"); ?></td>
+        <td><?php echo ucwords(strtolower($period->getCategory())); ?></td>
+        <td><?php echo "In progress"; ?></td>
+        <td>
+            <a href="<?php echo $this->url("administration",array("action"=>"periodform","id"=>$period->getPkAcademicperiodid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"semester","id"=>$period->getPkAcademicperiodid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"asc","id"=>$period->getPkAcademicperiodid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-calendar"></i></a>
+            <a href="<?php //echo $this->url("administration",array("action"=>"semester","id"=>$period->getPkAcademicperiodid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>  </td>
+            
+      </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+                <div class="col ">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label for="email">Show:</label>
+
+<select class="form-control">
+  <option>10</option>
+  <option>20</option>
+  <option>30</option>
+  <option>50</option>
+  <option>100</option>
+</select> 
+       
+          
+    </div>
+
+      <a class="btn btn-success">Download <i class="glyphicon glyphicon-download"></i></a> 
+                 
+               </div>
+            </div>
+                </div>
+        </div>
+</div>
+        

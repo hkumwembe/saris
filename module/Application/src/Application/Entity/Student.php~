@@ -1,0 +1,111 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Student
+ *
+ * @ORM\Table(name="student", indexes={@ORM\Index(name="staffuserid_idx", columns={"FK_USERID"}), @ORM\Index(name="studentdistrictfk_idx", columns={"FK_DISTRICTID"}), @ORM\Index(name="studentcountryfk_idx", columns={"FK_COUNTRYID"}), @ORM\Index(name="studentreligion", columns={"FK_RELIGIONID"}), @ORM\Index(name="studentmaritalstatus", columns={"FK_MARITALSTATUSID"})})
+ * @ORM\Entity
+ */
+class Student
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_STUDENTID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkStudentid;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DOB", type="date", nullable=true)
+     */
+    private $dob;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LASTSECONDARYSCHOOL", type="string", length=50, nullable=true)
+     */
+    private $lastsecondaryschool;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="REPEAT_HISTORY", type="integer", nullable=true)
+     */
+    private $repeatHistory;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="VILLAGE", type="string", length=50, nullable=false)
+     */
+    private $village;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TA", type="string", length=45, nullable=true)
+     */
+    private $ta;
+
+    /**
+     * @var \Application\Entity\Country
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Country")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_COUNTRYID", referencedColumnName="PK_COUNTRYID")
+     * })
+     */
+    private $fkCountryid;
+
+    /**
+     * @var \Application\Entity\District
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\District")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_DISTRICTID", referencedColumnName="PK_DISTRICTID")
+     * })
+     */
+    private $fkDistrictid;
+
+    /**
+     * @var \Application\Entity\Maritalstatus
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Maritalstatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_MARITALSTATUSID", referencedColumnName="PK_MARITALSTATUSID")
+     * })
+     */
+    private $fkMaritalstatusid;
+
+    /**
+     * @var \Application\Entity\Religion
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Religion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_RELIGIONID", referencedColumnName="PK_RELIGIONID")
+     * })
+     */
+    private $fkReligionid;
+
+    /**
+     * @var \Application\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_USERID", referencedColumnName="PK_USERID")
+     * })
+     */
+    private $fkUserid;
+
+
+}
+

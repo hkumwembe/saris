@@ -1,0 +1,148 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User
+ *
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="USERNAME_UNIQUE", columns={"USERNAME"}), @ORM\UniqueConstraint(name="EMAILADDRESS_UNIQUE", columns={"EMAILADDRESS"})}, indexes={@ORM\Index(name="userrole_fk_idx", columns={"FK_ROLEID"})})
+ * @ORM\Entity
+ */
+class User
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_USERID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkUserid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="USERNAME", type="string", length=50, nullable=false)
+     */
+    private $username = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PASSWORD", type="string", length=50, nullable=true)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="IPADDRESS", type="string", length=20, nullable=true)
+     */
+    private $ipaddress;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="PASSWORDLASTCHANGED", type="datetime", nullable=true)
+     */
+    private $passwordlastchanged;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="LOGINTIMES", type="integer", nullable=true)
+     */
+    private $logintimes = '0';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="LASTLOGINDATE", type="datetime", nullable=true)
+     */
+    private $lastlogindate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LASTLOGINIP", type="string", length=20, nullable=true)
+     */
+    private $lastloginip;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="LOGINDATE", type="datetime", nullable=true)
+     */
+    private $logindate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ACCOUNTTYPE", type="text", nullable=true)
+     */
+    private $accounttype = 'STUDENT';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FIRSTNAME", type="string", length=45, nullable=false)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SURNAME", type="string", length=45, nullable=false)
+     */
+    private $surname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TITLE", type="string", length=10, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="GENDER", type="text", nullable=true)
+     */
+    private $gender;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="OTHERNAMES", type="string", length=45, nullable=true)
+     */
+    private $othernames;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="EMAILADDRESS", type="string", length=45, nullable=true)
+     */
+    private $emailaddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="IMAGE_URL", type="string", length=250, nullable=true)
+     */
+    private $imageUrl;
+
+    /**
+     * @var \Application\Entity\Role
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Role")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_ROLEID", referencedColumnName="PK_ROLEID")
+     * })
+     */
+    private $fkRoleid;
+
+
+}
+

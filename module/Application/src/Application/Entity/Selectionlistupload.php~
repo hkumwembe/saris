@@ -1,0 +1,81 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Selectionlistupload
+ *
+ * @ORM\Table(name="selectionlistupload", indexes={@ORM\Index(name="UPLOADEDBY", columns={"UPLOADED_BY"}), @ORM\Index(name="ACADEMICPERIOD_IDX", columns={"FK_ACADEMICPERIODID"})})
+ * @ORM\Entity
+ */
+class Selectionlistupload
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_UPLOADID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkUploadid;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DATE_UPLOADED", type="datetime", nullable=true)
+     */
+    private $dateUploaded;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FILE_CONTENTS", type="text", nullable=true)
+     */
+    private $fileContents;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FILE_NAME", type="string", length=254, nullable=true)
+     */
+    private $fileName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="REGNUMBER_ASSIGNED", type="text", nullable=true)
+     */
+    private $regnumberAssigned = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SAVED", type="text", nullable=true)
+     */
+    private $saved = '0';
+
+    /**
+     * @var \Application\Entity\Academicyear
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Academicyear")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_ACADEMICPERIODID", referencedColumnName="PK_ACADEMICPERIODID")
+     * })
+     */
+    private $fkAcademicperiodid;
+
+    /**
+     * @var \Application\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="UPLOADED_BY", referencedColumnName="PK_USERID")
+     * })
+     */
+    private $uploadedBy;
+
+
+}
+

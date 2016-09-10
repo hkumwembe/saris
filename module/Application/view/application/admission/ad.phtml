@@ -1,0 +1,103 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#agerange").val($("#agerange").attr("max"));
+    $("#max").html($("#agerange").attr("max"));
+    $("#min").html($("#agerange").attr("min"));
+    $("#minimum").val($("#agerange").attr("min"));
+    
+    $("#agerange").change(function(){
+        $("#agerange").html($("#agerange").val());
+    });
+});
+</script>
+<div class="row">
+        <div class="col col-md-12">
+            <div class="panel panel-default">
+            <h3 class="page-header">Admission reports: Age distribution</h3>
+            <div class="panel-body">
+            <?php
+                $searchform->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+                echo $this->form()->openTag($searchform);
+                ?>
+                
+                <div class="alert alert-info">
+                    <table>
+                        <tr>
+                            <td width="5%" class="text-right" >&nbsp;</td>
+                            <td width="10%" class="text-center"><label>Age range(Min:<span id="min"></span> ,Max:<span id="max"></span>  ):</label><span id="rangeval"></span><br><?php echo $this->formNumber($searchform->get('agerange')); ?></td>
+                            <td width="1%" class="text-right" >&nbsp;</td>
+                            <input type="hidden" name="minimum" id="minimum">
+                            <td width="10%" class="text-center"><label>Student type:</label><br><?php echo $this->formElement($searchform->get('studenttype')); ?></td>
+                            <td width="1%" class="text-right"></td>
+                            <td width="10%" class="text-center"><label>Academic period:</label><br><?php echo $this->formElement($searchform->get('period')); ?></td>
+                            <td width="8%" class="text-left"><br>&nbsp;<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Show</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <?php
+                echo $this->form()->closeTag();
+                ?>    
+            <hr>
+            <?php
+            if(!empty($range)){
+            ?>
+            <h4 class="text-danger text-uppercase"><?php //echo $title; ?></h4>
+            
+            <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="text-center info"></th>
+        <?php
+           foreach($headers as $header){
+        ?>
+            <th colspan="3" class="text-center info"><?php echo $header;?></th>
+        <?php
+            }
+        ?>
+       
+      </tr>
+      <tr>
+        <th class="text-center"></th>
+        <?php
+           foreach($headers as $header){
+        ?>
+            <th class="text-center">F</th>
+            <th class="text-center">M</th>
+            <th class="text-center">T</th>
+        <?php
+        }
+        ?>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $totals = array();
+      foreach($content as $year=>$data){
+          $code = sprintf("Year %s",$year);
+     ?>
+      <tr>
+         <th class="text-left"><?php echo $code; ?></th>
+        <?php
+        foreach($headers as $header){  
+        ?>
+        <td class="text-center"><?php echo $data[$header]['F']; ?></td>
+        <td class="text-center"><?php echo $data[$header]['M']; ?></td>
+        <td class="text-center"><strong><?php echo $data[$header]['F']+$data[$header]['M']; ?></strong></td>
+        <?php
+      }
+      ?>
+      </tr>
+      <?php
+            }
+      ?>
+    </tbody>
+</table>
+     <?php
+     }
+     ?>
+            </div>
+                </div>
+        </div>
+</div>
+        

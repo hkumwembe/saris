@@ -1,0 +1,85 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $( ".dialog-link" ).click(function( event ) {
+                $( "#dialog" ).dialog( "open" );
+                $("#body-text").html($("#text"+this.id).val());
+                event.preventDefault();
+        });
+        
+        
+        $( "#dialog" ).dialog({
+                autoOpen: false,
+                modal: true,
+                width: 600,
+                height: 500,
+                closeOnEscape: false,
+                buttons: [
+                        {
+                            text: "Close",
+                            click: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                ]
+        });
+        
+        
+        
+        
+    });
+</script>
+<div class="row">
+<div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Notices</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("communication",array("action"=>"nf")); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-plus"></i> Add notice</a>  </div>
+            <hr>
+            <?php 
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-info"><i class="glyphicon glyphicon-check"></i> <?php echo $msg; ?></div>
+            <?php
+            }
+            ?>
+<table class="table table-bordered table-hover" >
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date posted</th>
+        <th>Posted by</th>
+        <th>Status</th>
+        <th>Target group</th>
+        <th width="130"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        $counter = 1;
+        foreach($notices as $notice){
+        ?>
+      <tr>
+    <input type="hidden" id="text<?php echo $counter; ?>" value="<?php echo nl2br(strip_tags($notice->getBody())); ?>" />
+        <td><?php echo $notice->getHeader(); ?></td>
+        <td><?php echo date_format($notice->getDatePublished(),"d M Y"); ?></td>
+        <td><?php echo !empty($notice->getCapturedBy())?sprintf("%s %s",$notice->getCapturedBy()->getSurname(),$notice->getCapturedBy()->getFirstname()):""; ?></td>
+        <td><?php echo ($notice->getIsActive()=='1')?"Active":"Disabled"; ?></td>
+        <td><?php echo ($notice->getAccounttype()== NULL)?"All":ucfirst(strtolower($notice->getAccounttype())); ?></td>
+        <td><a href="<?php echo $this->url("communication",array("action"=>"nf","id"=>$notice->getPkNoticeid())); ?>"  class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;<a id="<?php echo $counter; ?>" class="dialog-link btn btn-sm btn-info"><i class="glyphicon glyphicon-folder-open"></i></a>&nbsp;<a href="<?php echo $this->url("communication",array("action"=>"ca","id"=>"dln#{$notice->getPkNoticeid()}")); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a></td>
+      </tr>
+      <?php
+        $counter++;
+      }
+      ?>
+    </tbody>
+</table>
+            </div>
+          </div>
+        </div>
+</div>
+
+<div id="dialog" title="Description">
+    <p id="body-text"></p>
+</div>
+        

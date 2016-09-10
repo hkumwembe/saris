@@ -1,0 +1,366 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <h4 class="page-header">STUDENT REGISTRATION FORM - 2014/2015 SEMESTER 2: HALEEMA JIKA</h4>
+                    
+                    <div class="panel-body">
+                        <div class="alert alert-info">Please enter information in the registration form provided below. All details should be verified before submission. All fields marked with * are mandatory</div>
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+//    $name = (!empty($details))?$details->getFacultyName():$form->get('Faculty')->get('facultyName')->getValue();
+//    $code = (!empty($details))?$details->getFacultyCode():$form->get('Faculty')->get('facultyCode')->getValue();
+//    $user = (!empty($details))?$details->getFkStaffid():$form->get('Faculty')->get('fkStaffid')->getValue();
+//    $id   = (!empty($details))?$details->getPkFacultyid():$form->get('Faculty')->get('pkFacultyid')->getValue();
+ ?>
+        <div class="box box-warning">
+            <div class="box-header with-border">
+            <h3 class="box-title "> Personal information</h3>
+            </div>
+        
+         <div class="row">                       
+            <div class="col-md-12">
+
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('basicdetails')->get('title')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php echo $this->formElement($form->get('Student')->get('basicdetails')->get('title')); ?>
+                </div>
+
+            </div>
+
+        </div> 
+        <p></p>
+        <div class="row">                       
+            <div class="col-md-12">
+                <div class="col-md-2">
+                  <?php echo $this->formLabel($form->get('Student')->get('basicdetails')->get('othernames')); ?>
+                </div>
+                <div class="col-md-4">
+                   <?php echo $this->formElement($form->get('Student')->get('basicdetails')->get('othernames')); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('maritalStatus')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php  echo $this->formElement($form->get('Student')->get('maritalStatus')); ?>
+                </div>
+            </div>
+
+        </div> 
+        <p></p>
+        <div class="row">                       
+            <div class="col-md-12">
+                <div class="col-md-2">
+                  <?php echo $this->formLabel($form->get('Student')->get('basicdetails')->get('gender')); ?>
+                </div>
+                <div class="col-md-4">
+                   <?php echo $this->formElement($form->get('Student')->get('basicdetails')->get('gender')); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('dob')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php  echo $this->formElement($form->get('Student')->get('dob')); ?>
+                </div>
+            </div>
+
+        </div> 
+        <p></p>
+        <div class="row">                       
+            <div class="col-md-12">
+                <div class="col-md-2">
+                  <?php echo $this->formLabel($form->get('Student')->get('fkReligionid')); ?>
+                </div>
+                <div class="col-md-4">
+                   <?php echo $this->formElement($form->get('Student')->get('fkReligionid')); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('fkCountryid')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php  echo $this->formElement($form->get('Student')->get('fkCountryid')); ?>
+                </div>
+            </div>
+
+        </div> 
+        <p></p>
+        <div class="row">                       
+            <div class="col-md-12">
+                <div class="col-md-2">
+                  <?php echo $this->formLabel($form->get('Student')->get('ta')); ?>
+                </div>
+                <div class="col-md-4">
+                   <?php echo $this->formElement($form->get('Student')->get('ta')); ?>
+                </div>
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('fkDistrictid')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php  echo $this->formElement($form->get('Student')->get('fkDistrictid')); ?>
+                </div>
+            </div>
+
+        </div> 
+        <p></p>
+        <div class="row">                       
+            <div class="col-md-12">
+
+                <div class="col-md-2">
+                    <?php echo $this->formLabel($form->get('Student')->get('village')); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php echo $this->formElement($form->get('Student')->get('village')); ?>
+                </div>
+
+            </div>
+
+        </div> 
+        <br>
+        </div>
+           <hr> 
+           <div class="box box-warning">
+            <div class="box-header with-border">
+            <h3 class="box-title "> Contact information</h3>
+            </div>
+    <legend class="text-danger text-capitalize">&nbsp;&nbsp;Personal</legend>
+
+     <div class="row">                       
+        <div class="col-md-12">
+            <div class="col-md-2">
+               <?php echo $this->formLabel($form->get('Studentcontact')->get('cell')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('Studentcontact')->get('cell')); ?>
+            </div>
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('Studentcontact')->get('emailaddress')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('Studentcontact')->get('emailaddress')); ?>
+            </div>
+        </div>
+     
+    </div> 
+    <p></p>
+     <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('Studentcontact')->get('postalAddress')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('Studentcontact')->get('postalAddress')); ?>
+            </div>
+            
+        </div>
+     
+    </div>      
+        <p>&nbsp;</p>
+    <legend class="text-danger text-capitalize">&nbsp;&nbsp;Next of Kin information</legend>
+     <div class="row">                       
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label>
+                Full name:*
+                </label>
+            </div>
+            <div class="col-md-2">
+                <?php echo $this->formElement($form->get('NOK')->get('noktitle')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('NOK')->get('nokfirstname')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('NOK')->get('noksurname')); ?>
+            </div>
+        </div>
+     
+    </div> 
+    <p></p>
+    <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('NOK')->get('nokrelationship')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('NOK')->get('nokrelationship')); ?>
+            </div>
+            
+        </div>
+     
+    </div> 
+    <p></p>
+    
+    <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('NOK')->get('nokmobile')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('NOK')->get('nokmobile')); ?>
+            </div>
+            
+        </div>
+     
+    </div> 
+    <p></p>
+    
+    <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('NOK')->get('nokpostaladdress')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('NOK')->get('nokpostaladdress')); ?>
+            </div>
+            
+        </div>
+     
+    </div> 
+    <p>&nbsp;</p>
+    <legend class="text-danger text-capitalize">&nbsp;&nbsp;Emergency</legend>
+     <div class="row">                       
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label>
+                Full name:*
+                </label>
+            </div>
+            <div class="col-md-2">
+                <?php echo $this->formElement($form->get('EMG')->get('emgtitle')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('EMG')->get('emgfirstname')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('EMG')->get('emgsurname')); ?>
+            </div>
+        </div>
+     
+    </div> 
+   
+    <p></p>
+    
+    <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('EMG')->get('emgphone')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('EMG')->get('emgphone')); ?>
+            </div>
+            
+        </div>
+     
+    </div> 
+    <p></p>
+    
+    <div class="row">                       
+        <div class="col-md-12">
+           
+            <div class="col-md-2">
+                <?php echo $this->formLabel($form->get('EMG')->get('emgpostaladdress')); ?>
+            </div>
+            <div class="col-md-4">
+                <?php echo $this->formElement($form->get('EMG')->get('emgpostaladdress')); ?>
+            </div>
+            
+        </div>
+     
+    </div> 
+    
+    <p>&nbsp;</p>
+           </div>
+           <div class="box box-warning">
+            <div class="box-header with-border">
+            <h3 class="box-title "> Other information</h3>
+            </div>
+    <br>
+    
+    <div class="row form-group">                       
+            <div class="col col-sm-7">
+                <div class="alert alert-info">
+                    <table class="table table-bordered">
+                           
+                          <tbody>
+                              <tr>
+                                  <td><h4>Program to enroll:</h4></td>
+                                <td>Bachelor of Medicine Bachelor of Surgery (MBBS)</td>
+                              </tr>
+                              <tr>
+                                  <td><h4>Program duration</h4><?php //echo $faculty->getFacultyCode()?></td>
+                                <td>4 years</td>
+                              </tr>
+                              <tr>
+                                  <td><h4>College entry year</h4><?php //echo $faculty->getFacultyCode()?></td>
+                                <td>2015</td>
+                              </tr>
+                             
+                          </tbody>
+    
+                      </table>
+                </div>
+          </div>
+          <div class="col col-sm-5">
+              <div class="panel panel-primary">
+                  <div class="panel-heading">MSCE/IGSCE RESULTS</div>
+                  <div class="panel-body">
+                      <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                              <th>Subject</th>
+                              <th>Points</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td>Mathematics<?php //echo $faculty->getFacultyCode()?></td>
+                                <td>2<?php //echo $faculty->getFacultyName()?></td>
+                              </tr>
+                              <tr>
+                                <td>English<?php //echo $faculty->getFacultyCode()?></td>
+                                <td>3<?php //echo $faculty->getFacultyName()?></td>
+                              </tr>
+                              <tr>
+                                <td>Biology<?php //echo $faculty->getFacultyCode()?></td>
+                                <td>1<?php //echo $faculty->getFacultyName()?></td>
+                              </tr>
+                              <tr>
+                                <td>Physical science<?php //echo $faculty->getFacultyCode()?></td>
+                                <td>1<?php //echo $faculty->getFacultyName()?></td>
+                              </tr>
+                              <tr>
+                                <td>Life skills<?php //echo $faculty->getFacultyCode()?></td>
+                                <td>4<?php //echo $faculty->getFacultyName()?></td>
+                              </tr>
+                          </tbody>
+    
+                      </table>
+                  </div>
+              </div>
+          </div>
+       </div>
+           </div>
+    <div class="well center-block">
+        <input type="submit" name="save" class="btn btn-success" value="Save registration form" />
+        <a href="<?php echo $this->url("administration",array("action"=>"faculties")); ?>" class="btn btn-warning">Cancel</a>
+    </div>                       
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>

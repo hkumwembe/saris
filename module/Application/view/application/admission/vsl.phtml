@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $("#description").html("Are you sure you want to cancel the upload? ");
+        $("#btngenerate").html("Yes");
+        $("#btncancel").html("No");
+        
+        $("#btngenerate").click(function(){
+            $.ajax({
+                type:'POST',
+                url:'/smis/public/admission/du',
+                data:"uploadid="+$("#uploadid").val(),
+                dataType:'TEXT',
+                success: function(result){
+                    $("#description").html(result);
+                    var url = "/smis/public/admission/selectionlist";
+                    $(location).attr("href", url);
+                    $(location).reload();
+                    return false;
+                }  
+             });
+        });
+    
+        $('#confirmmodal').on('hide.bs.modal', function () {
+            $("#btngenerate").removeAttr("disabled");
+        });
+        
+    });
+</script>
+<div class="row">
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Selection list</h3>
+            <div class="panel-body">
+                <div class="col text-left"><a href="<?php echo $this->url("admission",array("action"=>"selectionlist")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a> </div>
+            <hr>
+             
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+            <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+         <th>Year</th>
+        <th>Registration #</th>
+        <th>ACCPAC #</th>
+        <th>Username</th>
+        
+        <th>First name</th>
+        <th>Surname</th>
+        <th>Initials</th>
+        <th>Gender</th>
+        <th>Type</th>
+        <th>Class/Cohort</th>
+        <th>Campus</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        foreach($students as $student){ 
+      ?>
+      <tr>
+          <td><?php echo $student->getFkAcademicperiodid()->getParentid()->getAcyr(); ?></td>
+        <td><?php echo !empty($student->getGeneratedRegnumber())?$student->getGeneratedRegnumber():"<strong class='text-danger text-right'>?</strong>"; ?></td>
+        <td><?php echo !empty($student->getGeneratedFinAccountNo())?$student->getGeneratedFinAccountNo():"<strong class='text-danger text-right'>?</strong>"; ?></td>
+        <td><?php echo !empty($student->getGeneratedUsername())?$student->getGeneratedUsername():"<strong class='text-danger text-right'>?</strong>"; ?></td>
+        <td><?php echo $student->getFirstname(); ?></td>
+        <td><?php echo $student->getSurname(); ?></td>
+        <td><?php echo $student->getMiddlename(); ?></td>
+        <td><?php echo $student->getGender(); ?></td>
+        <td><?php echo $student->getFkEntrymannerid()->getEntryName(); ?></td>
+        <td><?php echo $student->getFkClassid()->getClassCode(); ?></td>
+        <td><?php echo $student->getFkCampusid()->getCampusName(); ?></td>
+        <td><a class="btn btn-sm btn-info"><i class="glyphicon glyphicon-asterisk"></i></a></td>
+      </tr>
+      <?php
+      }
+      ?>
+    
+    </tbody>
+</table>
+           <div class="col text-left"><a href="<?php echo $this->url("admission",array("action"=>"selectionlist")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a> </div>
+            </div>
+                </div>
+        </div>
+</div>
+        

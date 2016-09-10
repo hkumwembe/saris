@@ -1,0 +1,54 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header"><?php echo $hostel->getHostelName(); ?> hostel rooms</h3>
+                
+            <div class="panel-body">
+                
+                <div class="col text-right"><a href="<?php echo $this->url("accommodation",array("action"=>"roomform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add room</a> <a href="<?php echo $this->url("accommodation",array("action"=>"index")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+     <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+        <th>Number/name</th>
+        <th>Capacity</th>
+        <th>Category</th>
+        <th width="80"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($rooms as $room){
+      ?>
+
+      <tr>
+       
+        <td><?php echo $room->getRoomNumber(); ?></td>
+        <td><?php echo $room->getCapacity(); ?></td>
+        <td><?php echo $room->getFkRcid()->getName(); ?></td>
+        <td>
+            <a href="<?php echo $this->url("accommodation",array("action"=>"roomform","id"=>$room->getPkRoomid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php //echo $this->url("administration",array("action"=>"moduleform","id"=>$module->getPkModuleid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>   
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+        

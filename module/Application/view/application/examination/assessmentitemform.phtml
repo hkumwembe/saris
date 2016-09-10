@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+       $("#atid").change(function(event){
+           var itemid = $(this).val();
+           var moduleid = <?php echo $module->getPkClassmoduleid(); ?>;
+         $.ajax({
+         type:'POST',
+         url:'/smis/public/examination/assignmentcount',
+         data:'itemid='+itemid+'&module='+moduleid,
+         dataType:'JSON',
+         success: function(name){
+             //alert(name.title);
+             $("#title").val(name.title);
+              return false;
+          }  
+             
+          });
+          
+       }); 
+    });
+</script>
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header"><?php echo sprintf("%s (%s)",$module->getFkModuleid()->getModuleName(),$module->getFkModuleid()->getModuleCode()); ?> assessment details</h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $title = (!empty($details))?$details->getAssessmentTitle():$form->get('Assessment')->get('assessmentTitle')->getValue();
+    $sname = (!empty($details))?$details->getShortName():$form->get('Assessment')->get('shortName')->getValue();
+    $type = (!empty($details))?$details->getFkAtid()->getPkAtid():$form->get('Assessment')->get('fkAtid')->getValue();
+    $weighting = (!empty($details))?$details->getWeighting():$form->get('Assessment')->get('weighting')->getValue();
+    $id   = (!empty($details))?$details->getPkAiid():$form->get('Assessment')->get('pkAiid')->getValue();
+ ?>
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Assessment')->get('fkAtid')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Assessment')->get('fkAtid')->setValue($type)); ?>
+           <?php echo $this->formHidden($form->get('Assessment')->get('pkAiid')->setValue($id)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Assessment')->get('fkAtid')); ?></div>
+    </div>
+                        
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Assessment')->get('assessmentTitle')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Assessment')->get('assessmentTitle')->setValue($title)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Assessment')->get('assessmentTitle')); ?></div>
+    </div>
+    
+   
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Assessment')->get('weighting')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Assessment')->get('weighting')->setValue($weighting)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Assessment')->get('weighting')); ?></div>
+    </div>                        
+
+    <div class="form-group">   
+       <div class="col-sm-3"></div>
+       <div class="col-sm-5">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("examination",array("action"=>"asmnts","id"=>$module->getPkClassmoduleid())); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+       <div class="col-sm-4"></div>
+    </div>                            
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

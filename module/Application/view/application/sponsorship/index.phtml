@@ -1,0 +1,91 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $( ".dialog-link" ).click(function( event ) {
+            $( "#dialog" ).dialog( "open" );
+            $("#body-text").html("<h4>This action will delete the selected element. <br>Are you sure you want to proceed?</h4>");
+            //$("#body-text").html($("#text"+this.id).val());
+            event.preventDefault();
+    });  
+        
+    $( "#dialog" ).dialog({
+            autoOpen: false,
+            modal: true,
+            width: 500,
+            height: 200,
+            closeOnEscape: false,
+            buttons: [
+                    {
+                        text: "Continue",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+            ]
+    });
+});
+</script>
+
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Sponsors</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("ss",array("action"=>"sf")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add sponsor</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+     <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+        <th>Sponsor</th>
+        <th>Address</th>
+        <th>Phone number(s)</th>
+        <th>Contact person</th>
+        <th>Current status</th>
+        <th width="107"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($sponsors as $sponsor){
+      ?>
+      <tr>
+        <td><?php echo $sponsor->getSponsorName(); ?></td>
+        <td><?php echo $sponsor->getPostalAddress(); ?></td>
+        <td><?php echo $sponsor->getPhoneNumber(); ?></td>
+        <td><?php echo $sponsor->getContactPerson(); ?></td>
+        <td><?php echo !($sponsor->getCurrentStatus())?"Retired":"Active"; ?></td>
+        <td>
+            <a href="<?php echo $this->url("ss",array("action"=>"sf","id"=>$sponsor->getPkSponsorid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php echo $this->url("ss",array("action"=>"ss","id"=>$sponsor->getPkSponsorid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-user"></i></a>   
+            <a class="dialog-link btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>   
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="dialog" title="Confirm">
+    <p id="body-text"></p>
+</div>
+        

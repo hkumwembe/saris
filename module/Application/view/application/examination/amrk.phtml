@@ -1,0 +1,106 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <h3 class="page-header">Assessments - Compute average<?php //echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> </h3>
+            <div class="panel-body">
+                <a href="<?php echo $this->url("examination",array("action"=>"asmnts","id"=>$module->getPkClassmoduleid())); ?>" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-arrow-left"></i> Return </a> <br>
+            <hr>
+            <form method="POST" action="" name="frmcompute">
+                <blockquote class="panel-primary"><?php echo sprintf("%s (%s)",$module->getFkModuleid()->getModuleName(),$module->getFkModuleid()->getModuleCode()); ?><div class="pull-right"><input type="submit" name="recompute" value="Recompute" class="btn btn-sm btn-success">&nbsp;<input type="submit" name="save" value="Save" class="btn btn-sm btn-primary"></div></blockquote>
+            
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+        <th colspan="5"></th>
+        <th colspan="<?php echo count($items)-1; ?>" class="info text-center">Assignments</th>
+        
+        <th  class="info text-center">CWK</th>
+        <th colspan="2"  class="info text-center">EOS Exam</th>
+        <th  class="info text-center">Final</th>
+      </tr>
+      <tr>
+        <th width="5">Count</th>
+        <th width="120">Registration</th>
+        <th width="120">Surname</th>
+        <th width="120">First name</th>
+        <th width="10">Gender</th>
+        <?php
+        $itemcount = 1;
+        foreach($items as $item){
+            if($item->getFkAtid()->getTypeCode()== "ASS" || $item->getFkAtid()->getTypeCode()== "MID"){
+            $label = ($item->getFkAtid()->getTypeCode()== "ASS" )?"{$itemcount}":"Mid sem";
+        ?>
+        <th width="80" class="text-center"><?php echo $label; ?><BR><input name="item[<?php echo $item->getPkAiid(); ?>]" value="<?php echo ($weights[$item->getPkAiid()])?$weights[$item->getPkAiid()]:$item->getWeighting(); ?>" class="form-control" type="text" /></th>
+        <?php
+            $itemcount++;
+            }
+        }
+        ?>
+        <th width="10" class="text-center">Average</th>
+        <th width="10" class="text-center"><?php echo $module->getCwkweight(); ?>%</th>
+        <th width="10" class="text-center">Score</th>
+        <th width="10" class="text-center"><?php echo $module->getExweight(); ?>%</th>
+        <th width="10" class="text-center"><?php echo $module->getCwkweight()+ $module->getExweight(); ?>%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $count = 1;
+      foreach($students as $student){
+         
+      ?>
+
+      <tr>
+        <td><?php echo $count; ?></td>
+        <td><?php echo $student["REGNUMBER"]; ?></td>
+        <td><?php echo $student["SURNAME"]; ?></td>
+        <td><?php echo $student["FIRSTNAME"]; ?></td>
+        <td><?php echo $student["GENDER"]; ?></td>
+        <?php
+        $average = $assignmentsCount = 0;
+        $exammark = $exampercentage = 0;
+        foreach($items as $item){
+                if($item->getFkAtid()->getTypeCode()== "ASS" || $item->getFkAtid()->getTypeCode()== "MID"){
+                    $weighting = ($weights[$item->getPkAiid()])?$weights[$item->getPkAiid()]:$item->getWeighting();
+
+                    $average += ($weighting/100) * $marks[$student["STUDENTCLASSID"]][$item->getPkAiid()];
+        ?>
+        <td align="center"><?php echo $marks[$student["STUDENTCLASSID"]][$item->getPkAiid()]; ?></td>
+        <?php
+                    $assignmentsCount++;
+                }
+                if($item->getFkAtid()->getTypeCode()== "EXAM"){
+
+                  $exammark = $marks[$student["STUDENTCLASSID"]][$item->getPkAiid()];
+                  $exampercentage = $exammark * ($module->getExweight()/100);
+               }
+            }
+            
+            
+            $cwk = round($average/$assignmentsCount);
+            $cwkpercentage = $cwk*($module->getCwkweight()/100);
+        ?>
+        <td align="center" ><?php echo $cwk; ?></td>
+        <td align="right" ><strong><?php  echo $cwkpercentage; ?></strong></td>
+        <td align="center" ><?php echo $exammark; ?></td>
+        <td align="center" ><strong><?php echo $exampercentage; ?></strong></td>
+        <td align="right" ><input class="form-control" type="text" readonly="" name="studentmark[<?php echo $student["STUDENTCLASSID"]; ?>]" value="<?php echo round($exampercentage+$cwkpercentage); ?>" /></td>
+        
+      </tr>
+      
+      <?php
+      $count++;
+     }
+      
+      ?>
+    </tbody>
+</table>
+            
+        <div class="pull-right"><input type="submit" name="recompute" value="Recompute" class="btn btn-sm btn-success">&nbsp;<input type="submit" name="save" value="Save" class="btn btn-sm btn-primary"></div>   
+            </form>
+            </div>
+                </div>
+        </div>
+</div>
+        

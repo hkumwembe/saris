@@ -1,0 +1,75 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Sponsor
+ *
+ * @ORM\Table(name="sponsor")
+ * @ORM\Entity
+ */
+class Sponsor
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_SPONSORID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkSponsorid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SPONSOR_NAME", type="string", length=45, nullable=false)
+     */
+    private $sponsorName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="POSTAL_ADDRESS", type="text", length=65535, nullable=true)
+     */
+    private $postalAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CONTACT__PERSON", type="string", length=45, nullable=true)
+     */
+    private $contactPerson;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PHONE_NUMBER", type="string", length=45, nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DESCRIPTION", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DOCUMENT_URL", type="string", length=45, nullable=true)
+     */
+    private $documentUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CURRENT_STATUS", type="text", nullable=true)
+     */
+    private $currentStatus = '1';
+
+
+}
+

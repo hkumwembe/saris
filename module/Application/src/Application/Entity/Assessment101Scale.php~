@@ -1,0 +1,54 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Assessment101Scale
+ *
+ * @ORM\Table(name="assessment_101_scale")
+ * @ORM\Entity
+ */
+class Assessment101Scale
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_ASID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkAsid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CODE", type="string", length=30, nullable=false)
+     */
+    private $code = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="REMARK", type="string", length=50, nullable=true)
+     */
+    private $remark;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="MARK_FROM", type="integer", nullable=true)
+     */
+    private $markFrom;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="MARK_TO", type="integer", nullable=true)
+     */
+    private $markTo;
+
+
+}
+

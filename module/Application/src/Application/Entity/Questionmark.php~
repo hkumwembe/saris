@@ -1,0 +1,53 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Questionmark
+ *
+ * @ORM\Table(name="questionmark", indexes={@ORM\Index(name="studentmark_idx", columns={"FK_STUDENTCLASSID"}), @ORM\Index(name="questionmark_idx", columns={"FK_QID"})})
+ * @ORM\Entity
+ */
+class Questionmark
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_QGID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkQgid;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="MARK", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $mark;
+
+    /**
+     * @var \Application\Entity\Question
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Question")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_QID", referencedColumnName="PK_QID")
+     * })
+     */
+    private $fkQid;
+
+    /**
+     * @var \Application\Entity\Studentclass
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Studentclass")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_STUDENTCLASSID", referencedColumnName="PK_STUDENTCLASSID")
+     * })
+     */
+    private $fkStudentclassid;
+
+
+}
+

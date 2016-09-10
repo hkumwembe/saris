@@ -1,0 +1,96 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Institution
+ *
+ * @ORM\Table(name="institution")
+ * @ORM\Entity
+ */
+class Institution
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_IID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkIid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="LONG_NAME", type="string", length=255, nullable=true)
+     */
+    private $longName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="SHORT_NAME", type="string", length=200, nullable=true)
+     */
+    private $shortName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ADDRESS_LINE1", type="string", length=100, nullable=true)
+     */
+    private $addressLine1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ADDRESS_LINE2", type="string", length=100, nullable=true)
+     */
+    private $addressLine2;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ADDRESS_LINE3", type="string", length=100, nullable=true)
+     */
+    private $addressLine3;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ADDRESS_LINE4", type="string", length=100, nullable=true)
+     */
+    private $addressLine4;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PHONE_NUMBER", type="string", length=30, nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="EMAIL_ADDRESS", type="string", length=45, nullable=true)
+     */
+    private $emailAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PRINCIPAL_NAME", type="string", length=100, nullable=true)
+     */
+    private $principalName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="QUALIFICATIONS", type="string", length=200, nullable=true)
+     */
+    private $qualifications;
+
+
+}
+

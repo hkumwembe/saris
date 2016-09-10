@@ -1,0 +1,91 @@
+<script type="text/javascript">
+//    $(document).ready(function(){
+//        
+//        $("#description").html("This process will move all grades in hand to Head of department(CIT). <br> Click <strong>Start button</strong> to run the process.");
+//        $("#btngenerate").html("Start");
+//        
+//        $("#btngenerate").click(function(){
+//            $("#btngenerate").prop("disabled",true);
+//            $("#description").html("This process may take long, please wait......");
+//            $("#progress").html("<center><img src='<?php //echo $this->basePath(); ?>/img/ajax-loader.gif' /></center>");
+//            
+//            $.ajax({
+//                type:'POST',
+//                url:'/smis/public/examination/gradesignoff',
+//                data:'itemid='+$("#assessmentitemid").val()+"&destination=2&start=1",
+//                dataType:'JSON',
+//                success: function(result){
+//                    $("#description").html("Grades successful signed off");
+//                    $("#progress").html("");
+//                    location.reload();
+//                    return false;
+//                }  
+//             });
+//        });
+//    
+//    $('#confirmmodal').on('hide.bs.modal', function () {
+//        $("#btngenerate").removeAttr("disabled");
+//        $("#progress").html("");
+//    });
+//        
+//        
+//        
+        
+//    });
+</script>
+<div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> - grade tracking</h3>
+            <div class="panel-body">
+            <div class="alert alert-info"><strong class="text-uppercase text-danger"><?php echo sprintf("%s: %s (%s) - %s",$item->getFkStudentclassid()->getExamNumber(),$item->getFkAiid()->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$item->getFkAiid()->getFkClassmoduleid()->getFkModuleid()->getModuleCode(),$item->getFkAiid()->getFkClassmoduleid()->getFkClassid()->getClassCode()); ?></strong></div>
+            <div>&nbsp;<a class="btn btn-sm btn-info"><i class="glyphicon glyphicon-print"></i> Print</a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"lms","id"=>$item->getFkAiid()->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a></div>
+            <hr>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th width="10"></th>
+        <th width="80">Mark(%)</th>
+        <th width="100">Level</th>
+        <th width="160">Date logged</th>
+        <th width="200">Logged by</th>
+        
+        <th width="100">Input method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $count = 1;
+      $inhand = 0;
+      foreach($grades as $grade){
+
+      ?>
+
+      <tr>
+          <td><?php echo $count; ?></td>
+          <td align="right"><strong class="text-danger"><?php echo $grade->getGrade(); ?></strong></td>
+          <td class="success"><?php echo $grade->getFkGradeflowid()->getFkRoleid()->getDescription(); ?></td>
+          <td><?php echo date_format($grade->getTimestamp(), "d M Y h:m:s"); ?></td>
+          
+          <td><?php echo sprintf("%s %s (%s)",$grade->getCapturedby()->getFkUserid()->getSurname(),$grade->getCapturedby()->getFkUserid()->getFirstname(),$grade->getCapturedby()->getFkUserid()->getUsername()); ?></td>
+          
+          <?php
+          //if($level > 1){
+          ?>
+          
+          <td class="success"><strong class="text-success"><?php echo $grade->getInputMethod(); ?></strong></td>
+          
+      </tr>
+      
+      <?php
+      $count++;
+      }
+      
+      ?>
+    </tbody>
+</table>
+           
+            </div>
+                </div>
+        </div>
+</div>

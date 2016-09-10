@@ -1,0 +1,62 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header">Flow stage details</h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $description = (!empty($details))?$details->getDescription():$form->get('Flow')->get('description')->getValue();
+    $level = (!empty($details))?$details->getLevel():$form->get('Flow')->get('level')->getValue();
+    $roleid = (!empty($details))?$details->getFkRoleid():$form->get('Flow')->get('fkRoleid')->getValue();
+    $id   = (!empty($details))?$details->getPkGradeflowid():$form->get('Flow')->get('pkGradeflowid')->getValue();
+    if(empty($id)){
+        $level = $stage->getLevel() + 1;
+    }
+ ?>
+                            
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Flow')->get('description')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Flow')->get('description')->setValue($description)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Flow')->get('description')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Flow')->get('level')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Flow')->get('level')->setValue($level)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Flow')->get('level')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Flow')->get('fkRoleid')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Flow')->get('fkRoleid')->setValue($roleid)); ?>
+           <?php echo $this->formHidden($form->get('Flow')->get('pkGradeflowid')->setValue($id)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Flow')->get('fkRoleid')); ?></div>
+    </div>
+                            
+
+    <div class="form-group">   
+       <div class="col-sm-3"></div>
+       <div class="col-sm-5">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("examination",array("action"=>"gf")); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+       <div class="col-sm-4"></div>
+    </div>                            
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

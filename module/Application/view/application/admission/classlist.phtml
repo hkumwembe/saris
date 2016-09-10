@@ -1,0 +1,180 @@
+
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header">Class list</h3>
+            <div class="panel-body">
+                <?php
+                $searchform->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+                echo $this->form()->openTag($searchform);
+                ?>
+                <div class="alert alert-info">
+                <table>
+                        <tr>
+                            <td width="5%" class="text-left"><label>Class/Cohort:</label></td>
+                            <td width="10%"><?php echo $this->formElement($searchform->get('class')); ?></td>
+                            <td width="10%" class="text-right" ><label>Academic year:</label></td>
+                            <td width="10%"><?php echo $this->formElement($searchform->get('academicyear')); ?></td>
+                            <td width="5%" class="text-right"><label>Semester:</label></td>
+                            <td width="10%"><?php echo $this->formElement($searchform->get('semester')); ?></td>
+                            
+                            <td width="10%" class="text-left">&nbsp;<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Show</button></td>
+                        </tr>
+                    </table>
+                
+                
+                
+                    
+                </div>
+                <?php
+                echo $this->form()->closeTag();
+                ?>
+            <hr>
+            <?php
+            if(!empty($class)){
+            ?>
+            
+            
+            <legend class="text-primary"><?php echo sprintf("%s: %s (%s)",!empty($period->getParentid())?$period->getParentid()->getAcyr()." semester ".$period->getAcyr():$period->getAcyr(),$class->getClassName(),$class->getClassCode()); ?></legend>
+            <ul class="nav nav-tabs">
+                        <li><a data-toggle="tab" href="#registered" class="btn btn-sm btn-primary">REGISTERED STUDENTS</a></li>
+                        <li><a data-toggle="tab" href="#pending" class="btn btn-sm btn-primary">STUDENTS PENDING REGISTRATION</a></li>
+                    </ul>
+            <div class="tab-content table-bordered" >
+            <div class="row" style="margin: 15px;"> 
+            <div id="registered" class="tab-pane fade in active">
+            <div class="row"> 
+                <div class="col col-md-12">
+                    <div class="alert alert-warning">
+                        <a target="_blank" href="<?php echo $this->url("rpt",array("action"=>"rl")); ?>"><img width="56" src="<?php echo $this->basePath(); ?>/img/pdf.png" alt="" class="img-thumbnail"></a>
+                        <a href=""><img width="56" src="<?php echo $this->basePath(); ?>/img/excel.png" alt="" class="img-thumbnail"></a>
+                    </div>
+                    
+                     
+                    <div id="home" class="col col-md-12">
+                    <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50">Count</th>
+                            <th width="140">Registration #</th>
+                            <th width="160">Last name</th>
+                            <th width="160">First name</th>
+                            <th width="50">Gender</th>
+                            <th width="130">Entry manner</th>
+                            <th width="80">Status</th>
+                            <th width="140">Registration date</th>
+                            <th width="30"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $count = 1;
+                        foreach($students as $student){
+
+                        ?>
+                    <tr>
+                        <td><?php echo $count; ?></td>
+                        <td><?php echo $student->getFkStudentprogramid()->getStudentnumber(); ?></td>
+                        <td><?php echo $student->getFkStudentid()->getFkUserid()->getSurname(); ?></td>
+                        <td><?php echo $student->getFkStudentid()->getFkUserid()->getFirstname(); ?></td>
+                        <td><?php echo $student->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+                        <td><?php echo $student->getFkStudentprogramid()->getFkEntrymannerid()->getEntryName(); ?></td>
+                        <td><?php echo ($student->getStatus()=='1')?"Registered":"Pending"; ?></td>
+                        <td><?php echo !empty($student->getRegistrationdate())?date_format($student->getRegistrationdate(),"d M Y"):"N/A"; ?></td>
+                        <td><a href="<?php echo $this->url("admission",array("action"=>"sp","id"=>$student->getFkStudentid()->getPkStudentid())); ?>" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a></td>
+                    </tr>
+                    <?php
+                        $count++;
+                        }
+                    ?>
+                    </tbody>
+                </table>
+                </div>
+                
+                
+            </div>
+            </div>
+            </div>
+             <div id="pending" class="tab-pane fade">
+            <div class="row"> 
+                <div class="col col-md-12">
+                  <div class="alert alert-warning">
+                      <a target="_blank" href="<?php echo $this->url("rpt",array("action"=>"pl")); ?>"><img width="56" src="<?php echo $this->basePath(); ?>/img/pdf.png" alt="" class="img-thumbnail"></a>
+                        <a href=""><img width="56" src="<?php echo $this->basePath(); ?>/img/excel.png" alt="" class="img-thumbnail"></a>
+                    </div>  
+                <div class="col col-md-12">
+                    <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50">Count</th>
+                            <th width="140">Registration #</th>
+                            <th width="160">Last name</th>
+                            <th width="160">First name</th>
+                            <th width="50">Gender</th>
+                            <th width="130">Entry manner</th>
+                            <th width="90">Status</th>
+                            <th width="140">Registration date</th>
+                            <th width="30"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $count = 1;
+                        foreach($unregisteredlist as $selectedstudent){
+
+                        ?>
+                        <tr>
+                            <td><?php echo $count; ?></td>
+                            <td><?php echo $selectedstudent->getFkStudentprogramid()->getStudentnumber(); ?></td>
+                            <td><?php echo $selectedstudent->getFkStudentid()->getFkUserid()->getSurname(); ?></td>
+                            <td><?php echo $selectedstudent->getFkStudentid()->getFkUserid()->getFirstname(); ?></td>
+                            <td><?php echo $selectedstudent->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+                            <td><?php echo $selectedstudent->getFkStudentprogramid()->getFkEntrymannerid()->getEntryName(); ?></td>
+                            <td><?php echo ($selectedstudent->getStatus()=='1')?"Registered":"Pending"; ?></td>
+                            <td><?php echo !empty($selectedstudent->getRegistrationdate())?date_format($selectedstudent->getRegistrationdate(),"d M Y"):"N/A"; ?></td>
+                            <td><a href="<?php echo $this->url("admission",array("action"=>"sp","id"=>$selectedstudent->getFkStudentid()->getPkStudentid())); ?>" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a></td>
+                        </tr>
+                    
+                    <?php
+                        $count++;
+                        }
+                        foreach($unregisteredselectionlist as $selectedstudent){
+                    ?>
+                        <tr>
+                            <td><?php echo $count; ?></td>
+                            <td><?php echo $selectedstudent->getGeneratedRegnumber(); ?></td>
+                            <td><?php echo $selectedstudent->getSurname(); ?></td>
+                            <td><?php echo $selectedstudent->getFirstname(); ?></td>
+                            <td><?php echo $selectedstudent->getGender(); ?></td>
+                            <td><?php echo $selectedstudent->getFkEntrymannerid()->getEntryName(); ?></td>
+                            <td><?php echo "Pending"; ?></td>
+                            <td><?php echo "N/A"; ?></td>
+                            <td><a href="<?php //echo $this->url("admission",array("action"=>"sp","id"=>$selectedstudent->getFkStudentid()->getPkStudentid())); ?>" class="btn btn-info btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a></td>
+                        </tr>
+                        <?php
+                        $count++;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                </div>
+                
+                
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            <?php
+            }
+            ?>
+            
+            
+            
+            </div>
+                </div>
+        </div>
+</div>

@@ -1,0 +1,73 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Servicedmodule
+ *
+ * @ORM\Table(name="servicedmodule", indexes={@ORM\Index(name="servicingdept_idx", columns={"SERVICINGDEPT"}), @ORM\Index(name="requestingdept_idx", columns={"REQDEPT"}), @ORM\Index(name="assignedlecturermodule_idx", columns={"FKLMID"}), @ORM\Index(name="servicedmodule_fx_idx", columns={"FK_CLASSMODULEID"})})
+ * @ORM\Entity
+ */
+class Servicedmodule
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_SMID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkSmid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="FLAG", type="text", nullable=false)
+     */
+    private $flag;
+
+    /**
+     * @var \Application\Entity\Lecturermodule
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Lecturermodule")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FKLMID", referencedColumnName="PK_LMID")
+     * })
+     */
+    private $fklmid;
+
+    /**
+     * @var \Application\Entity\Department
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="REQDEPT", referencedColumnName="PK_DEPTID")
+     * })
+     */
+    private $reqdept;
+
+    /**
+     * @var \Application\Entity\Classmodule
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Classmodule")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_CLASSMODULEID", referencedColumnName="PK_CLASSMODULEID")
+     * })
+     */
+    private $fkClassmoduleid;
+
+    /**
+     * @var \Application\Entity\Department
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="SERVICINGDEPT", referencedColumnName="PK_DEPTID")
+     * })
+     */
+    private $servicingdept;
+
+
+}
+

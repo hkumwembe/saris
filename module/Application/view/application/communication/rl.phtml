@@ -1,0 +1,83 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $( ".dialog-link" ).click(function( event ) {
+                $( "#dialog" ).dialog( "open" );
+                $("#body-text").html($("#text"+this.id).val());
+                event.preventDefault();
+        });
+        
+        
+        $( "#dialog" ).dialog({
+                autoOpen: false,
+                modal: true,
+                width: 600,
+                height: 500,
+                closeOnEscape: false,
+                buttons: [
+                        {
+                            text: "Close",
+                            click: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                ]
+        });
+        
+        
+        
+        
+    });
+</script>
+<div class="row">
+<div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Regulations</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("communication",array("action"=>"rlf")); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-plus"></i> Add regulation</a>  </div>
+            <hr>
+            <?php 
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-info"><i class="glyphicon glyphicon-check"></i> <?php echo $msg; ?></div>
+            <?php
+            }
+            ?>
+<table class="table table-bordered table-hover" >
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Module</th>
+        <th>Status</th>
+        <th width="170"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        $counter = 1;
+        foreach($regulations as $regulation){
+        ?>
+      <tr>
+    <input type="hidden" id="text<?php echo $counter; ?>" value="<?php echo nl2br(strip_tags($regulation->getBody())); ?>" />
+        <td><?php echo $regulation->getTitle(); ?></td>
+        <td><?php echo ucfirst($regulation->getModule()); ?></td>
+        
+        <td><?php echo ($regulation->getIsCurrent()=='1')?"Current":"Archived"; ?></td>
+        
+        <td><a href="<?php echo $this->url("communication",array("action"=>"rlf","id"=>$regulation->getPkRegulationid())); ?>"  class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;<a href="<?php echo $this->url("communication",array("action"=>"rlg","id"=>$regulation->getPkRegulationid())); ?>"  class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>&nbsp;<a id="<?php echo $counter; ?>" class="dialog-link btn btn-sm btn-info"><i class="glyphicon glyphicon-folder-open"></i></a>&nbsp;<a href="<?php echo $this->url("communication",array("action"=>"ca","id"=>"dln#{$regulation->getPkRegulationid()}")); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a></td>
+      </tr>
+      <?php
+        $counter++;
+      }
+      ?>
+    </tbody>
+</table>
+            </div>
+          </div>
+        </div>
+</div>
+
+<div id="dialog" title="Description">
+    <p id="body-text"></p>
+</div>
+        

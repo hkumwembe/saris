@@ -1,0 +1,85 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header">Sponsor information</h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $name          = (!empty($details))?$details->getSponsorName():$form->get('Sponsor')->get('sponsorName')->getValue();
+    $contactPerson = (!empty($details))?$details->getContactPerson():$form->get('Sponsor')->get('contactPerson')->getValue();
+    $postalAddess  = (!empty($details))?$details->getPostalAddress():$form->get('Sponsor')->get('postalAddress')->getValue();
+    $phoneNumber   = (!empty($details))?$details->getPhoneNumber():$form->get('Sponsor')->get('phoneNumber')->getValue();
+    $description   = (!empty($details))?$details->getDescription():$form->get('Sponsor')->get('description')->getValue();
+    $currentstatus = (!empty($details))?$details->getCurrentStatus():$form->get('Sponsor')->get('currentStatus')->getValue();
+    $id            = (!empty($details))?$details->getPkSponsorid():$form->get('Sponsor')->get('pkSponsorid')->getValue();
+ ?>
+                            
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('sponsorName')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('sponsorName')->setValue($name)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('sponsorName')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('contactPerson')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('contactPerson')->setValue($contactPerson)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('contactPerson')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('postalAddress')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('postalAddress')->setValue($postalAddess)); ?>
+           <?php echo $this->formHidden($form->get('Sponsor')->get('pkSponsorid')->setValue($id)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('postalAddress')); ?></div>
+    </div>
+    
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('phoneNumber')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('phoneNumber')->setValue($phoneNumber)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('phoneNumber')); ?></div>
+    </div>
+                        
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('description')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('description')->setValue($description)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('description')); ?></div>
+    </div>
+    
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Sponsor')->get('currentStatus')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Sponsor')->get('currentStatus')->setValue($currentstatus)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Sponsor')->get('currentStatus')); ?></div>
+    </div>                    
+                        
+    <div class="form-group">   
+       <div class="col-sm-3"></div>
+       <div class="col-sm-5">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("ss",array("action"=>"index")); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+       <div class="col-sm-4"></div>
+    </div>                            
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

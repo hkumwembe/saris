@@ -1,0 +1,94 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $("#description").html("This process will move all grades in hand to Head of department(CIT). <br> Click <strong>Start button</strong> to run the process.");
+        $("#btngenerate").html("Start");
+        
+        $("#btngenerate").click(function(){
+            $("#btngenerate").prop("disabled",true);
+            $("#description").html("This process may take long, please wait......");
+            $("#progress").html("<center><img src='<?php echo $this->basePath(); ?>/img/ajax-loader.gif' /></center>");
+            
+            $.ajax({
+                type:'POST',
+                url:'/smis/public/examination/gradesignoff',
+                data:'itemid='+$("#assessmentitemid").val()+"&destination=2&start=1",
+                dataType:'JSON',
+                success: function(result){
+                    $("#description").html("Grades successful signed off");
+                    $("#progress").html("");
+                    location.reload();
+                    return false;
+                }  
+             });
+        });
+    
+    $('#confirmmodal').on('hide.bs.modal', function () {
+        $("#btngenerate").removeAttr("disabled");
+        $("#progress").html("");
+    });
+        
+        
+        
+        
+    });
+</script>
+<div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> - signoff</h3>
+            <div class="panel-body">
+            <div class="alert alert-info"><strong class="text-uppercase text-danger"><?php echo sprintf("%s (%s) - %s",$module->getFkModuleid()->getModuleName(),$module->getFkModuleid()->getModuleCode(),$module->getFkClassid()->getClassCode()); ?></strong></div>
+            <div><label>Send email:</label> <input id="assessmentitemid" type="hidden" value="<?php echo $item->getPkAiid(); ?>" /><input checked="" type="checkbox" value="1" /> <button data-toggle="modal" data-target="#confirmmodal"  class="btn btn-sm btn-success"><i class="glyphicon glyphicon-send"></i> Sign off</button>&nbsp;<a class="btn btn-sm btn-info"><i class="glyphicon glyphicon-print"></i> Print</a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"mam")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a></div>
+            <hr>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th width="10"></th>
+        <th>Exam number</th>
+        <th width="100">Final grade</th>
+        <th width="60">History</th>
+        <th width="100">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $count = 1;
+      $inhand = 0;
+      foreach($students as $student){
+          $mark  = !empty($marks[$student['STUDENTCLASSID']])?$marks[$student['STUDENTCLASSID']]->getMark():"";
+          $level = !empty($marks[$student['STUDENTCLASSID']])?$marks[$student['STUDENTCLASSID']]->getMarkLevel()->getLevel():"";
+      ?>
+
+      <tr>
+          <td><?php echo $count; ?></td>
+          <td><?php echo $student['EXAMNUMBER']; ?></td>
+          <td align="center"><strong class="text-danger"><?php echo $mark; ?></strong></td>
+          <td align="center"><a <?php if(!empty($mark)){ ?>href="<?php echo $this->url("examination",array("action"=>"gradetrail","id"=>$marks[$student['STUDENTCLASSID']]->getPkSmid())); ?>" <?php } ?> class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-folder-open"></i></a></td>
+          
+          <?php
+          if($level > 1){
+          ?>
+          <td class="success"><strong class="text-success">Signed off</strong></td>
+          <?php
+          }else{
+          ?>
+          <td class="danger"><strong class="text-danger">In hand</strong></td>
+          <?php
+          }
+          ?>
+          
+      </tr>
+      
+      <?php
+      $count++;
+      }
+      
+      ?>
+    </tbody>
+</table>
+           
+            </div>
+                </div>
+        </div>
+</div>

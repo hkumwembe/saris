@@ -1,0 +1,46 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Lecturermodule
+ *
+ * @ORM\Table(name="lecturermodule", indexes={@ORM\Index(name="modulelecturer_idx", columns={"FK_STAFFID"}), @ORM\Index(name="assignedmodulefk_idx", columns={"FK_CLASSMODULEID"})})
+ * @ORM\Entity
+ */
+class Lecturermodule
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_LMID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkLmid;
+
+    /**
+     * @var \Application\Entity\Classmodule
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Classmodule")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_CLASSMODULEID", referencedColumnName="PK_CLASSMODULEID")
+     * })
+     */
+    private $fkClassmoduleid;
+
+    /**
+     * @var \Application\Entity\Staff
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Staff")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_STAFFID", referencedColumnName="PK_STAFFID")
+     * })
+     */
+    private $fkStaffid;
+
+
+}
+

@@ -1,0 +1,33 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Studymode
+ *
+ * @ORM\Table(name="studymode")
+ * @ORM\Entity
+ */
+class Studymode
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_STUDYMODEID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkStudymodeid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="TITLE", type="string", length=50, nullable=false)
+     */
+    private $title;
+
+
+}
+

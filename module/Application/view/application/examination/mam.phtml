@@ -1,0 +1,81 @@
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> - Modules</h3>
+            <div class="panel-body">
+                <a href="<?php echo $this->url("examination",array("action"=>"amgmt")); ?>" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-arrow-left"></i> Return </a>   
+            <hr>
+            
+         
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Class</th>
+        <th>Module</th>
+        <th width="60">Total</th>
+        <th width="70">In hand</th>
+        <th width="90">Signed off</th>
+        <th width="20">Status</th>
+        <th width="100"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $count = 1;
+      foreach($modules as $module){
+          $inhand = $total[$module->getFkClassmoduleid()->getPkClassmoduleid()] - $signedoff[$module->getFkClassmoduleid()->getPkClassmoduleid()];
+      ?>
+
+      <tr>
+          <td><?php echo $count; ?></td>
+          <td><?php echo $module->getFkClassmoduleid()->getFkClassid()->getClassCode(); ?></td>
+          <td><?php echo sprintf("%s (%s)",$module->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$module->getFkClassmoduleid()->getFkModuleid()->getModuleCode()); ?></td>
+          <td><h4><?php echo $total[$module->getFkClassmoduleid()->getPkClassmoduleid()]; ?></h4></td>
+          <td><h4><?php echo $inhand; ?></h4></td>
+          <td><h4><?php echo $signedoff[$module->getFkClassmoduleid()->getPkClassmoduleid()]; ?></h4></td>
+          <?php
+          if($inhand == 0){
+          ?>
+          <td class="success"><strong class="text-success">OK</strong></td>
+          <?php
+          }else{
+          ?>
+          <td class="danger"><strong class="text-danger">Critical</strong></td>
+          <?php
+          }
+          
+          ?>
+          <td>
+           <?php
+           if($signedoff[$module->getFkClassmoduleid()->getPkClassmoduleid()] != $total[$module->getFkClassmoduleid()->getPkClassmoduleid()]){
+           ?>
+              <a href="<?php echo $this->url("examination",array("action"=>"asmnts","id"=>$module->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>
+              <a href="<?php echo $this->url("examination",array("action"=>"lms","id"=>$module->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-transfer"></i></a>
+           <?php
+           }else{
+           ?>
+              <button disabled class="btn btn-sm btn-success"><i class="glyphicon glyphicon-list"></i></button>
+              <button disabled class="btn btn-sm btn-info"><i class="glyphicon glyphicon-export"></i></button>
+           <?php
+           }
+           ?>
+            
+          </td>
+      </tr>
+      
+      <?php
+      $count++;
+      }
+      
+      ?>
+    </tbody>
+</table>
+           
+            </div>
+                </div>
+        </div>
+</div>

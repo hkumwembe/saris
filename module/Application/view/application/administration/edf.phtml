@@ -1,0 +1,168 @@
+<div class="row">
+
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+            <h3 class="page-header"><?php echo $session->getAcyr(); ?> session calendar</h3>
+            <div class="panel-body">
+                <div class="col text-right">  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+            <div class="row">
+                <div class="col col-md-8">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th>Document</th>
+                            
+                            <th width="40"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?php //echo $event->getFkEventtypeid()->getDescription(); ?></td>
+                                
+                                <td>
+                                       <a href="<?php //echo $this->url("administration",array("action"=>"semester","id"=>$period->getPkAcademicperiodid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>  </td>
+
+                                  </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <?php $form->setAttributes(array('name'=>'formsubmit','id'=>'upload-form','class'=>'form-horizontal'))->prepare(); // The correct enctype is set here ?>
+                            <?php echo $this->form()->openTag($form); ?>
+                            <?php echo $this->formFileSessionProgress(); // Must come before the file input! ?>
+                            
+                            <div class="form-element">
+                                <?php $fieldElement = $form->get('document-name'); ?>
+                                <?php echo $this->formLabel($fieldElement); ?>
+                                <?php echo $this->formElement($fieldElement); ?>
+                                <?php echo $this->formElementErrors($fieldElement); ?>
+                            </div>
+                            <div class="form-element">
+                                <?php $fileElement = $form->get('document-file'); ?>
+                                <?php echo $this->formLabel($fileElement); ?>
+                                <?php echo $this->formFile($fileElement); ?>
+                                <?php echo $this->formElementErrors($fileElement); ?>
+                            </div>
+                            
+                            <br>
+                            <button type="submit"  class="btn btn-sm btn-info btn-block" name="save" id="submitform" value="1"><i class="glyphicon glyphicon-upload"></i> Upload document</button>
+                            <?php echo $this->form()->closeTag(); ?>
+                            <div id="progress" class="help-block">
+                                <div class="progress progress-info progress-striped">
+                                    <div class="bar"></div>
+                                </div>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+                </div>
+        </div>
+    
+    
+</div>
+<script type="text/javascript">
+//var progressInterval;
+//
+//function getProgress() {
+//    // Poll our controller action with the progress id
+//    var url = '/administration/upload-progress?id=' + $('#progress_key').val();
+//    $.getJSON(url, function(data) {
+//        if (data.status && !data.status.done) {
+//            var value = Math.floor((data.status.current / data.status.total) * 100);
+//            showProgress(value, 'Uploading...');
+//        } else {
+//            showProgress(100, 'Complete!');
+//            clearInterval(progressInterval);
+//        }
+//    });
+//}
+//
+//function startProgress() {
+//    showProgress(0, 'Starting upload...');
+//    progressInterval = setInterval(getProgress, 900);
+//}
+//
+//function showProgress(amount, message) {
+//    $('#progress').show();
+//    $('#progress .bar').width(amount + '%');
+//    $('#progress > p').html(message);
+//    if (amount < 100) {
+//        $('#progress .progress')
+//            .addClass('progress-info active')
+//            .removeClass('progress-success');
+//    } else {
+//        $('#progress .progress')
+//            .removeClass('progress-info active')
+//            .addClass('progress-success');
+//    }
+//}
+
+
+//    $('#upload-form').on('submit', function(e) {
+//        e.preventDefault();
+//            // Register a 'submit' event listener on the form to perform the AJAX POST
+//        if ($('#document-file').val() == '') {
+//            // No files selected, abort
+//            alert("No file selected");
+//            return false;
+//        }
+//
+//        // Perform the submit
+//        //$.fn.ajaxSubmit.debug = true;
+//        $(this).ajaxSubmit({
+//            beforeSubmit: function(arr, $form, options) {
+//                // Notify backend that submit is via ajax
+//                arr.push({ name: "isAjax", value: "1" });
+//            },
+//            success: function (response, statusText, xhr, $form) {
+//                clearInterval(progressInterval);
+//                showProgress(100, 'Complete!');
+//
+//                // TODO: You'll need to do some custom logic here to handle a successful
+//                // form post, and when the form is invalid with validation errors.
+//                if (response.status) {
+//                    // TODO: Do something with a successful form post, like redirect
+//                    // window.location.replace(response.redirect);
+//                } else {
+//                    // Clear the file input, otherwise the same file gets re-uploaded
+//                    // http://stackoverflow.com/a/1043969
+//                    var fileInput = $('#document-file');
+//                    fileInput.replaceWith( fileInput.val('').clone( true ) );
+//
+//                    // TODO: Do something with these errors
+//                    // showErrors(response.formErrors);
+//                }
+//            },
+//            error: function(a, b, c) {
+//                // NOTE: This callback is *not* called when the form is invalid.
+//                // It is called when the browser is unable to initiate or complete the ajax submit.
+//                // You will need to handle validation errors in the 'success' callback.
+//                console.log(a, b, c);
+//            }
+//        });
+//        // Start the progress polling
+//        startProgress();
+//    });
+
+
+//$("#submitform").click(function() {
+//    $('#upload-form').submit();
+//});
+</script>        

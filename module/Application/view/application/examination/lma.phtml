@@ -1,0 +1,78 @@
+<?php
+if(empty($period)){
+?>
+<div class="row">
+    <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    
+                <h3 class="page-header">Lecturer module allocation</h3>
+                <hr>
+    <div class="alert alert-danger">
+        <i class="glyphicon glyphicon-warning-sign"></i> No academic year or semester is active. Make sure the academic session is activated to work with this function
+    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<?php
+}else{
+?>
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> - Lecturer module allocation</h3>
+            <div class="panel-body">
+                
+                <a href="<?php echo $this->url("examination",array("action"=>"ma")); ?>"  class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return </a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"lsm")); ?>" class="btn btn-sm btn-info "><i class="glyphicon glyphicon-eye-open"></i> Serviced department lecturer allocation </a>&nbsp;<a class="btn btn-sm btn-success"><i class="glyphicon glyphicon-file"></i> Export </a> <br>
+                <hr>
+             <?php
+            foreach($allocations as $allocation){
+            ?>
+            <div class="alert alert-info">
+                
+                <?php //echo $msg; ?>&nbsp;<strong><?php echo strtoupper($allocation['CLASSNAME']); ?></strong>
+            </div>
+            
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>Lecturer</th>
+        <th width="50"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($allocation['MODULE'] as $module){
+          //$status = empty($module['allocations'])?"Unassigned":"Testing";
+      ?>
+
+      <tr>
+          <td><?php echo sprintf("%s (%s)",$module['module']->getFkModuleid()->getModuleName(),$module['module']->getFkModuleid()->getModuleCode()); ?></td>
+        <td><?php echo $module['allocations']; ?></td>
+        
+        <td><?php if($module['isinhand']){ if($module['canmodify']){ ?><a href="<?php echo $this->url("examination",array("action"=>"lcform","id"=>$module['module']->getPkClassmoduleid(),"subparam"=>$module['staff']->getPkLmid())); ?>" class="btn btn-sm btn-success">Change</a> <?php }else{ ?> <a href="<?php echo $this->url("examination",array("action"=>"lcform","id"=>$module['module']->getPkClassmoduleid())); ?>" class="btn btn-sm btn-danger">Allocate</a> <?php } } ?>   </td>
+      </tr>
+      
+      <?php
+      }
+      
+      ?>
+    </tbody>
+</table>
+            <?php
+            }
+            ?>
+               
+            </div>
+                </div>
+        </div>
+</div>
+<?php
+}
+?>
+        

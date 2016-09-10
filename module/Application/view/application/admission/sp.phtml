@@ -1,0 +1,228 @@
+<script language="javascript" type="text/javascript">
+   $(document).ready(function(){
+   	$("#balance").html($("#incrementalbalance").html());
+   });
+</script>
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Student profile</h3>
+            <div class="panel-body">
+                <h3 class="text-uppercase"><?php echo sprintf("%s %s (%s)",$student->getFkStudentid()->getFkUserid()->getFirstname(),$student->getFkStudentid()->getFkUserid()->getSurname(),$student->getStudentnumber()); ?></h3>    
+            <hr>
+            <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" href="#home" class="btn btn-info">Personal information</a></li>
+                <li><a data-toggle="tab" href="#financial" class="btn btn-info">Financial account</a></li>
+                <li><a data-toggle="tab" href="#status" class="btn btn-info">Academic status</a></li>
+                <li><a data-toggle="tab" href="#menu3" class="btn btn-info">Exam history</a></li>
+                <li><a data-toggle="tab" href="#menu4" class="btn btn-info">Courses</a></li>
+                <li><a data-toggle="tab" href="#menu5" class="btn btn-info">Accommodation</a></li>
+                <li><a data-toggle="tab" href="#menu6" class="btn btn-info">Waivers</a></li>
+            </ul>
+            
+             <div class="tab-content table-bordered" >
+      <div class="row" style="margin: 15px;"> 
+      <div id="home" class="tab-pane fade in active">
+
+          <div class="row">
+              <div class="col-md-3"><img src="<?php echo $this->basePath(); ?>/img/photos/<?php echo $student->getFkStudentid()->getFkUserid()->getImageUrl(); ?>" alt="" height="70px" class="img-thumbnail"></div>
+              <div class="col-md-9">
+                  
+                  <div class="panel panel-default">
+                <div class="panel-heading"><strong>BIO DATA</strong></div>
+                <table class="table table-bordered">
+                    <tbody>
+                                
+                        <tr>
+                        <td width="200">DATE OF BIRTH</td>
+                        <td><?php echo date_format($student->getFkStudentid()->getDob(),"d M Y"); ?></td>
+                        </tr>
+                        <tr>
+                        <td>GENDER</td>
+                        <td><?php echo $student->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+                        </tr>
+                        <tr>
+                        <td>MARITAL STATUS</td>
+                        <td><?php echo $student->getFkStudentid()->getFkMaritalStatusid()->getStatusTitle(); ?></td>
+                        </tr>
+
+                        <tr>
+                        <td>NATIONALITY</td>
+                        <td><?php echo $student->getFkStudentid()->getFkCountryid()->getNationality(); ?></td>
+                        </tr>        
+                        <tr>
+                        <td>COUNTRY</td>
+                        <td><?php echo $student->getFkStudentid()->getFkCountryid()->getCountryName(); ?></td>
+                        </tr>
+                        <tr>
+                        <td>DISTRICT</td>
+                        <td><?php echo !empty($student->getFkStudentid()->getFkDistrictid())?$student->getFkStudentid()->getFkDistrictid()->getDistrictName():"N/A"; ?></td>
+                        </tr>
+                              
+                        <tr>
+                        <td>COLLEGE ENTRY YEAR</td>
+                        <td><?php echo date_format($student->getYearJoined(),"Y"); ?></td>
+                        </tr>
+                        
+                        <tr>
+                        <td>PROGRAM OF STUDY</td>
+                        <td><?php echo $student->getFkProgramid()->getProgramName(); ?></td>
+                        </tr>
+                        <tr>
+                        <td>ENTRY MANNER</td>
+                        <td><?php echo $student->getFkEntrymannerid()->getDescription(); ?></td>
+                        </tr>               
+                    </tbody>
+                </table>
+            </div>  
+              </div>
+          </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>CONTACTS</strong></div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                        <td>Phone number</td>
+                        <td>+265 999 371 088</td>
+                        </tr>        
+                        <tr>
+                        <td>Postal address</td>
+                        <td>Chicago Multi Supplies, P.O. Box 60433, Ndirande, BT 6.</td>
+                        </tr>
+                        <tr>
+                        <td>Email address</td>
+                        <td></td>
+                        </tr> 
+                        <tr>
+                            <td class="info" colspan="2"><strong>Next of kin</strong></td>
+                        </tr> 
+                        <tr>
+                        <td>Name</td>
+                        <td>+265 999 371 088</td>
+                        </tr>
+                        <tr>
+                        <td>Relationship</td>
+                        <td>+265 999 371 088</td>
+                        </tr> 
+                        <tr>
+                        <td>Phone number</td>
+                        <td>+265 999 371 088</td>
+                        </tr>        
+                        <tr>
+                        <td>Postal address</td>
+                        <td>Chicago Multi Supplies, P.O. Box 60433, Ndirande, BT 6.</td>
+                        </tr>
+                        <tr>
+                        <td>Email address</td>
+                        <td></td>
+                        </tr>  
+                        <tr>
+                            <td class="info" colspan="2"><strong>Emergency</strong></td>
+                        </tr>
+                        <tr>
+                        <td>Name</td>
+                        <td>+265 999 371 088</td>
+                        </tr>
+                        
+                        <tr>
+                        <td>Phone number</td>
+                        <td>+265 999 371 088</td>
+                        </tr>        
+                        <tr>
+                        <td>Postal address</td>
+                        <td>Chicago Multi Supplies, P.O. Box 60433, Ndirande, BT 6.</td>
+                        </tr>
+                        <tr>
+                        <td>Email address</td>
+                        <td></td>
+                        </tr>  
+                    </tbody>
+                </table>
+            </div>             
+      </div>
+
+      <div id="financial" class="tab-pane fade">
+          <div class="col col-md-12">
+              <h3>Current balance: Mk <span id="balance"></span></h3>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>List of transactions</strong></div>
+                    <table class="table table-bordered">
+                        <thead>
+     
+                            <tr>
+                            <th>REFERENCE</th>
+                            <th>TRANS. DATE</th>
+                            <th width="70">AMOUNT</th>
+                            <th width="100">BALANCE</th>
+                            </tr>
+                          </thead>
+                        <tbody>
+                            <?php
+                            $prevIn = '';
+                            $balance = 0;
+                            $totalsum = $inv = $pay = $totalInvoice = $totalpayment = 0;
+                            foreach ($fintrans as $transaction){
+                                $inv = ($prevIn == $transaction[0])?0:$transaction[1];
+                                $pay = $transaction[2];
+                                $totalsum = $inv + $pay;
+                                $balance += $totalsum;
+
+                            ?>
+                                <tr>
+                                <td><?php echo ($transaction[0]!='')?$transaction[0]:'&nbsp;'; ?></td>
+                                <td><?php echo date("d-M-Y", strtotime($transaction[3])); ?></td>
+                                <td><?php echo number_format($transaction[2],2); ?></td>
+                                <td><?php  echo number_format($balance,2); ?></td>
+                                </tr>        
+                             <?php
+                             }
+                             ?>
+                                <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><h3 id="incrementalbalance"><?php echo ($balance<0)?"(".number_format(round(abs($balance),2)).")":number_format(round($balance,2)); ?></h3></td>
+                                </tr>   
+                        </tbody>
+                    </table>
+                </div>  
+          </div>
+      </div>
+            
+      <div id="status" class="tab-pane fade">
+          <div class="alert alert-info">
+              <a class="btn btn-sm btn-default"><i class="glyphicon glyphicon-asterisk"></i></a> 
+              <a class="btn btn-sm btn-default"><i class="glyphicon glyphicon-send"></i></a> 
+              <a class="btn btn-sm btn-default"><i class="glyphicon glyphicon-flash"></i></a> 
+          </div>
+          <div class="panel">
+              <div class="panel-body">
+                  <blockquote class="panel-primary"><?php echo sprintf("%s registration status",$status->getFkAcademicperiodid()->getParentid()->getAcyr(),$status->getFkAcademicperiodid()->getAcyr()); ?></blockquote>
+                  <div class="alert alert-success">
+                    <h4><?php echo $status->getFkClassid()->getClassName(); ?></h4> 
+                    <h4 class="text-danger"><?php echo ($status->getStatus())?sprintf("%s (%s)","Registered",date_format($status->getRegistrationdate(), "d M Y")):"Pending registration"; ?></h4> 
+                    <h4>Valid from: <?php echo sprintf("%s to %s",date_format($status->getFkAcademicperiodid()->getStartdate(),"d M Y"),date_format($status->getFkAcademicperiodid()->getEnddate(),"d M Y")); ?></h4> 
+                  </div>  
+              </div>
+          </div>
+        
+      </div>
+      <div id="menu3" class="tab-pane fade">
+        <h3>Menu 3</h3>
+        <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+      </div>
+      </div> 
+    </div>
+            
+            
+            
+            
+            
+            
+            
+            </div>
+                </div>
+        </div>
+</div>
+        

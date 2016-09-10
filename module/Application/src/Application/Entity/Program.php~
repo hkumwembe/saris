@@ -1,0 +1,74 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Program
+ *
+ * @ORM\Table(name="program", indexes={@ORM\Index(name="deptprogram_idx", columns={"FK_DEPTID"}), @ORM\Index(name="programmeaward_idx", columns={"FK_AWARDID"})})
+ * @ORM\Entity
+ */
+class Program
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_PROGRAMID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkProgramid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PROGRAM_CODE", type="string", length=10, nullable=false)
+     */
+    private $programCode = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PROGRAM_NAME", type="string", length=255, nullable=false)
+     */
+    private $programName = '';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="DURATION", type="integer", nullable=false)
+     */
+    private $duration;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PROGRAM_LONG_NAME", type="string", length=150, nullable=false)
+     */
+    private $programLongName;
+
+    /**
+     * @var \Application\Entity\Department
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_DEPTID", referencedColumnName="PK_DEPTID")
+     * })
+     */
+    private $fkDeptid;
+
+    /**
+     * @var \Application\Entity\Award
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Award")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_AWARDID", referencedColumnName="PK_AWARDID")
+     * })
+     */
+    private $fkAwardid;
+
+
+}
+

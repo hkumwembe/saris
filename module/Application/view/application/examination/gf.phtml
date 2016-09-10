@@ -1,0 +1,41 @@
+<div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+            <h3 class="page-header">Exam management - Grade flow</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("examination",array("action"=>"flowform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add step</a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"em")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a>  </div>
+            <hr>
+<table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Role</th>
+        <th>Action</th>
+        <th width="50"></th>
+      </tr>
+    </thead>
+    <tbody>
+        <?php
+       foreach($stages as $stage){ 
+        ?>
+      <tr>
+        <td><?php echo $stage->getLevel(); ?></td>
+        <td><?php echo $stage->getFkRoleid()->getDescription(); ?></td>
+        <td><?php echo $stage->getDescription(); ?></td>
+        <td>
+            <a href="<?php echo $this->url("examination",array("action"=>"flowform","id"=>$stage->getPkGradeflowid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+      
+    </tbody>
+</table>
+               
+            </div>
+                </div>
+        </div>
+</div>
+        

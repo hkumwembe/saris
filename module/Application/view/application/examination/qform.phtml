@@ -1,0 +1,96 @@
+<script type="text/javascript">
+//    $(document).ready(function(){
+//       $("#atid").change(function(event){
+//           var itemid = $(this).val();
+//           var moduleid = <?php //echo $module->getPkClassmoduleid(); ?>;
+//         $.ajax({
+//         type:'POST',
+//         url:'/smis/public/examination/assignmentcount',
+//         data:'itemid='+itemid+'&module='+moduleid,
+//         dataType:'JSON',
+//         success: function(name){
+//             //alert(name.title);
+//             $("#title").val(name.title);
+//              return false;
+//          }  
+//             
+//          });
+//          
+//       }); 
+//    });
+</script>
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header"><?php echo sprintf("%s (%s) - %s",$item->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$item->getFkClassmoduleid()->getFkModuleid()->getModuleCode(),$item->getAssessmentTitle()); ?></h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $question  = (!empty($details))?$details->getQuestion():$form->get('Question')->get('question')->getValue();
+    $fkStaffid = (!empty($details))?$details->getFkStaffid()->getPkStaffid():$form->get('Question')->get('fkStaffid')->getValue();
+    $number    = (!empty($details))?$details->getQuestionNumber():$form->get('Question')->get('questionNumber')->getValue();
+    $paper    = (!empty($details))?$details->getFkPaperid()->getPkPaperid():$form->get('Question')->get('fkPaperid')->getValue();
+    $markoutof = (!empty($details))?$details->getMarkOutOf():$form->get('Question')->get('markOutOf')->getValue();
+    $id   = (!empty($details))?$details->getPkQid():$form->get('Question')->get('pkQid')->getValue();
+ ?>
+    <div class="form-group">   
+       <div class="col-sm-2"><?php echo $this->formLabel($form->get('Question')->get('fkPaperid')); ?> </div>
+       <div class="col-sm-7 <?php if(!empty($this->formElementErrors($form->get('Question')->get('fkPaperid')))){?> has-error <?php } ?>">
+           <?php echo $this->formElement($form->get('Question')->get('fkPaperid')->setValue($paper)); ?>
+           
+       </div>
+       
+    </div>                    
+                        
+    <div class="form-group">   
+       <div class="col-sm-2"><?php echo $this->formLabel($form->get('Question')->get('question')); ?> </div>
+       <div class="col-sm-7 <?php if(!empty($this->formElementErrors($form->get('Question')->get('question')))){?> has-error <?php } ?>">
+           <?php echo $this->formElement($form->get('Question')->get('question')->setValue($question)); ?>
+           <?php echo $this->formHidden($form->get('Question')->get('pkQid')->setValue($id)); ?>
+       </div>
+       
+    </div>
+                        
+    <div class="form-group">   
+       <div class="col-sm-2"><?php echo $this->formLabel($form->get('Question')->get('questionNumber')); ?> </div>
+       <div class="col-sm-7 <?php if(!empty($this->formElementErrors($form->get('Question')->get('questionNumber')))){?> has-error <?php } ?>">
+           <?php echo $this->formElement($form->get('Question')->get('questionNumber')->setValue($number)); ?>
+       </div> 
+    </div> 
+                        
+    <div class="form-group">   
+       <div class="col-sm-2"><?php echo $this->formLabel($form->get('Question')->get('fkStaffid')); ?> </div>
+       <div class="col-sm-7 <?php if(!empty($this->formElementErrors($form->get('Question')->get('fkStaffid')))){?> has-error <?php } ?>">
+           <?php echo $this->formElement($form->get('Question')->get('fkStaffid')->setValue($fkStaffid)); ?>
+       </div>
+       
+    </div> 
+    
+    <div class="form-group">   
+       <div class="col-sm-2"><?php echo $this->formLabel($form->get('Question')->get('markOutOf')); ?> </div>
+       <div class="col-sm-7 <?php if(!empty($this->formElementErrors($form->get('Question')->get('markOutOf')))){?> has-error <?php } ?>">
+           <?php echo $this->formElement($form->get('Question')->get('markOutOf')->setValue($markoutof)); ?>
+       </div>
+       
+    </div> 
+    
+    <div class="form-group">   
+       <div class="col-sm-2"></div>
+       <div class="col-sm-7">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("examination",array("action"=>"asq","id"=>$item->getPkAiid())); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+    </div>    
+                             
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

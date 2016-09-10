@@ -1,0 +1,67 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Cohortregistration
+ *
+ * @ORM\Table(name="cohortregistration", indexes={@ORM\Index(name="Cohort", columns={"FK_SCID"}), @ORM\Index(name="Studentid", columns={"FK_STUDENTID"})})
+ * @ORM\Entity
+ */
+class Cohortregistration
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_CREGID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkCregid;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="REGISTRATION_DATE", type="datetime", nullable=true)
+     */
+    private $registrationDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="NEXT_REGISTRATION", type="integer", nullable=true)
+     */
+    private $nextRegistration;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="STATUS", type="text", nullable=true)
+     */
+    private $status = '0';
+
+    /**
+     * @var \Application\Entity\Cohort
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Cohort")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_SCID", referencedColumnName="PK_SCID")
+     * })
+     */
+    private $fkScid;
+
+    /**
+     * @var \Application\Entity\Student
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Student")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_STUDENTID", referencedColumnName="PK_STUDENTID")
+     * })
+     */
+    private $fkStudentid;
+
+
+}
+

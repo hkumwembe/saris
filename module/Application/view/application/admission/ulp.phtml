@@ -1,0 +1,94 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $("#description").html("Are you sure you want to cancel the upload? ");
+        $("#btngenerate").html("Yes");
+        $("#btncancel").html("No");
+        
+        $("#btngenerate").click(function(){
+            $.ajax({
+                type:'POST',
+                url:'/smis/public/admission/du',
+                data:"uploadid="+$("#uploadid").val(),
+                dataType:'TEXT',
+                success: function(result){
+                    $("#description").html(result);
+                    var url = "/smis/public/admission/selectionlist";
+                    $(location).attr("href", url);
+                    $(location).reload();
+                    return false;
+                }  
+             });
+        });
+    
+        $('#confirmmodal').on('hide.bs.modal', function () {
+            $("#btngenerate").removeAttr("disabled");
+        });
+        
+    });
+</script>
+<div class="row">
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Preview selection list</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("admission",array("action"=>"ssu","id"=>$list->getPkUploadid())); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-check"></i> Selection list OK - SAVE</a> <a data-toggle="modal" data-target="#confirmmodal" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-trash"></i> Discard</a>  </div>
+            <hr>
+             
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+            <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Surname</th>
+        <th>Other names</th>
+        <th>Gender</th>
+        
+        <th>Type</th>
+        <th>Class/Cohort</th>
+        <th>Student #</th>
+        <th>Center</th>
+        <th>Campus</th>
+        <th>Study mode</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        foreach(explode("\n",$list->getFileContents()) as $record){
+            $column = explode(",",$record);
+      ?>
+      <tr>
+        <td><?php echo $column[0]; ?></td>
+        <td><?php echo $column[1]; ?></td>
+        <td><?php echo $column[2]; ?></td>
+        <td><?php echo $column[3]; ?></td>
+        <td><?php echo $column[4]; ?></td>
+        <td><?php echo $column[5]; ?></td>
+        <td><?php echo $column[7]; ?></td>
+        <td><?php echo $column[6]; ?></td>
+        <td><?php echo $column[9]; ?></td>
+        <td><?php echo $column[10]; ?></td>
+        
+      </tr>
+      <?php
+      }
+      ?>
+    <input type="hidden" name="uploadid" value="<?php echo $list->getPkUploadid(); ?>" id="uploadid" />
+    </tbody>
+</table>
+           <div class="col text-right"><a href="<?php echo $this->url("admission",array("action"=>"ssu","id"=>$list->getPkUploadid())); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-check"></i> Selection list OK - SAVE</a> <a data-toggle="modal" data-target="#confirmmodal" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-trash"></i> Discard</a>  </div>
+            </div>
+                </div>
+        </div>
+</div>
+        

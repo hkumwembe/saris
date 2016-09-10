@@ -1,0 +1,68 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Modules</h3>
+            <div class="panel-body">
+                <div class="col text-right"><a href="<?php echo $this->url("administration",array("action"=>"moduleform")); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add module</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+     <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+         <th>Code</th>
+        <th>Name</th>
+        <th width="100"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($modules as $module){
+      ?>
+
+      <tr>
+       <td><?php echo $module->getModuleCode()?></td>
+        <td><?php echo $module->getModuleName()?></td>
+        <td>
+            <a href="<?php echo $this->url("administration",array("action"=>"moduleform","id"=>$module->getPkModuleid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php //echo $this->url("administration",array("action"=>"moduleform","id"=>$module->getPkModuleid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>   
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+                <div class="col ">
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label for="email">Show:</label>
+
+<select class="form-control">
+  <option>10</option>
+  <option>20</option>
+  <option>30</option>
+  <option>50</option>
+  <option>100</option>
+</select> 
+       
+          
+    </div>
+
+      <a class="btn btn-success">Download <i class="glyphicon glyphicon-download"></i></a> 
+                 
+               </div>
+            </div>
+                </div>
+        </div>
+</div>
+        

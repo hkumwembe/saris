@@ -1,0 +1,43 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header">Student listing(Search student)</h3>
+            <div class="panel-body">
+                
+            <hr>
+            
+            <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+        <th>Student #</th>
+        <th>Surname</th>
+        <th>First name</th>
+        <th>Gender</th>
+        
+        <th width="50"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($students as $student){
+      ?>
+
+      <tr>
+        <td><?php echo $student->getStudentnumber(); ?></td>
+        <td><?php echo $student->getFkStudentid()->getFkUserid()->getSurname(); ?></td>
+        <td><?php echo $student->getFkStudentid()->getFkUserid()->getFirstname(); ?></td>
+        <td><?php echo $student->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+        
+        <td><a href="<?php echo $this->url("admission",array("action"=>"sp","id"=>$student->getFkStudentid()->getPkStudentid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-eye-open"></i></a>    </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+            </div>
+                </div>
+        </div>
+</div>
+        

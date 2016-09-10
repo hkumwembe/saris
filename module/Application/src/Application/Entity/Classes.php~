@@ -1,0 +1,67 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Classes
+ *
+ * @ORM\Table(name="classes", uniqueConstraints={@ORM\UniqueConstraint(name="CLASS_CODE_UNIQUE", columns={"CLASS_CODE"})}, indexes={@ORM\Index(name="programclass_idx", columns={"FK_PROGRAMID"}), @ORM\Index(name="teachingmode_idx", columns={"FK_TMODEID"})})
+ * @ORM\Entity
+ */
+class Classes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_CLASSID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkClassid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="CLASS_YEAR", type="integer", nullable=false)
+     */
+    private $classYear = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CLASS_NAME", type="string", length=100, nullable=false)
+     */
+    private $className = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="CLASS_CODE", type="string", length=45, nullable=false)
+     */
+    private $classCode;
+
+    /**
+     * @var \Application\Entity\Program
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Program")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_PROGRAMID", referencedColumnName="PK_PROGRAMID")
+     * })
+     */
+    private $fkProgramid;
+
+    /**
+     * @var \Application\Entity\Studymode
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Studymode")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_TMODEID", referencedColumnName="PK_STUDYMODEID")
+     * })
+     */
+    private $fkTmodeid;
+
+
+}
+

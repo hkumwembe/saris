@@ -1,0 +1,42 @@
+<div class="row">
+        <div class="col col-md-10 col-md-offset-1 ">
+            <div class="panel panel-default">
+            <h3 class="page-header">Assessment management</h3>
+            <div class="panel-body">
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Question marks</div>
+                        <div class="panel-body">
+                             <div class="col col-md-2"><img src="<?php echo $this->basePath(); ?>/img/question.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                                Capture students question marks
+                                <p></p>
+                                <a href="<?php echo $this->url("examination",array("action"=>"cqm")); ?>" class="btn btn-sm btn-info">Manage</a>
+                                
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Setup and manage allocated modules</div>
+                        <div class="panel-body">
+                             <div class="col col-md-2"><img src="<?php echo $this->basePath(); ?>/img/component.png" width="90" alt="" class="img-thumbnail" /></div>
+                            <div class="col col-md-9">
+                               Capture and compile student marks.
+                                <p></p>
+                                <a href="<?php echo $this->url("examination",array("action"=>"mam")); ?>" class="btn btn-sm btn-info">Manage</a>
+                                
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+               
+            </div>
+            </div>
+           </div>
+        </div>
+    </div>

@@ -1,0 +1,88 @@
+<script type="text/javascript">
+$(document).ready(function(){
+   var availableTags = <?php echo $availablestudents; ?>;
+    $( "#pendinglist" ).autocomplete({
+        source: availableTags,
+        minLength:2,
+        select: function( event, ui ) {
+           $("#pendinglist").val(ui.item.label);
+           $("#studentprogramid").val(ui.item.value);
+               return false;
+        }
+    });
+});
+</script>
+
+
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <h3 class="page-header">&nbsp;<?php echo $sponsor->getSponsorName(); ?> sponsorship</h3>
+                
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <form method="POST" id="frmassign">
+                            <div class="col col-md-4">Student (First name): <input id="pendinglist" name="pendinglist" class="form-control" />
+                            
+                            </div>
+                            <div class="col col-md-1">
+                                <input type="hidden" id="studentprogramid" name="studentid" value="" />
+                                <input type="hidden" name="sponsorid" value="<?php echo $sponsor->getPkSponsorid(); ?>" />
+                                &nbsp;
+                                <button id="assign" type="submit" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Assign </button>
+                            </div>
+                        </form>
+                        <div class="col col-md-7 text-right"> <a href="<?php echo $this->url("ss",array("action"=>"index")); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return</a>  </div>
+                    </div>
+                </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+     <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+          <th width="50" align="center"><input type="checkbox" class="checkbox" name="selecttall" /></th>
+        <th>Registration #</th>
+        <th>Surname</th>
+        <th>First name</th>
+        <th>Gender</th>
+        <th>Class/Group</th>
+        <th width="50"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($students as $student){
+      ?>
+      <tr>
+          <td><input type="checkbox" name="allocation[]" class="checkbox" /></td>
+        <td><?php echo $student->getFkStudentprogramid()->getStudentnumber(); ?></td>
+        <td><?php echo $student->getFkStudentprogramid()->getFkStudentid()->getFkUserid()->getSurname(); ?></td>
+        <td><?php echo $student->getFkStudentprogramid()->getFkStudentid()->getFkUserid()->getFirstname(); ?></td>
+        <td><?php echo $student->getFkStudentprogramid()->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+        <td><?php echo $student->getFkStudentprogramid()->getFkProgramid()->getProgramCode(); ?></td>
+        <td>
+            
+            <a class="dialog-link btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>   
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+        

@@ -1,0 +1,64 @@
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> </h3>
+            <div class="panel-body">
+                <a href="<?php echo $this->url("examination",array("action"=>"asmnts","id"=>$items->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-warning "><i class="glyphicon glyphicon-arrow-left"></i> Return </a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"qform","id"=>$items->getPkAiid())); ?>" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus"></i> Add question </a> <a href="<?php echo $this->url("examination",array("action"=>"csqm","id"=>$items->getPkAiid())); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-check"></i> Compile marks </a> <br>
+            <hr>
+            <blockquote class="panel-primary"><?php echo sprintf("%s (%s) - %s",$items->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$items->getFkClassmoduleid()->getFkModuleid()->getModuleCode(),$items->getAssessmentTitle()); ?> questions</blockquote>
+            
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th width="6">Q#</th>
+        <th width="150">Paper</th>
+        <th width="300">Question</th>
+        <th width="160">Lecturer</th>
+        <th width="100">Mark out of</th>
+        
+        <th width="90"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($questions as $question){
+//          $percentage = ($marks[$item->getPkAiid()]/count($students)) * 100;
+//          if($percentage >= 100){
+//              $status = "progress-bar-success";
+//          }elseif($percentage < 50){
+//              $status = "progress-bar-danger";
+//          }else{
+//              $status = "progress-bar-warning";
+//          }
+      ?>
+
+      <tr>
+        <td><?php echo $question->getQuestionNumber(); ?></td>
+         <td><?php echo $question->getFkPaperid()->getPaperName(); ?></td>
+        <td><?php echo $question->getQuestion(); ?></td>
+        <td><?php echo sprintf("%s %s",$question->getFkStaffid()->getFkUserid()->getSurname(),$question->getFkStaffid()->getFkUserid()->getFirstname()); ?></td>
+        <td><?php echo $question->getMarkOutOf(); ?></td>
+        
+        <td>
+            <a href="<?php echo $this->url("examination",array("action"=>"qform","id"=>$items->getPkAiid(),"subparam"=>$question->getPkQid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+           
+            <a href="<?php //echo $this->url("examination",array("action"=>"assessements")); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>    </td>
+      </tr>
+     
+      
+      <?php
+      //$rate = (2 * $rate) + 20;
+      }
+      
+      ?>
+    </tbody>
+</table>
+           
+            </div>
+                </div>
+        </div>
+</div>
+        

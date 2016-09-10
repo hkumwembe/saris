@@ -1,0 +1,35 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header">Confirm action</h4>
+                    <div class="panel-body">
+<?php
+  list($action,$id) = explode("#", $parameters);
+ ?>
+                            
+    <div class="form-group">   
+
+       <div class="col-sm-12">
+           <?php echo $msg; ?>
+       </div>
+       
+    </div>
+
+    
+
+    <div class="form-group">   
+
+       <div class="col-sm-10">
+           <a href="<?php echo $this->url("communication",array("action"=>$action,"id"=>$id)); ?>" class="btn btn-sm btn-primary" >Continue</a>
+           <a href="<?php echo $this->url("communication",array("action"=>"index")); ?>" class="btn btn-sm btn-warning">Cancel</a>
+       </div>
+       
+    </div>                            
+
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

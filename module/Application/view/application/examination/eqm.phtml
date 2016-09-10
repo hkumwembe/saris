@@ -1,0 +1,116 @@
+<div class="row">
+    <div class="col col-md-12">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s (%s)",$item->getAssessmentTitle(),$item->getFkClassmoduleid()->getFkModuleid()->getModuleCode()); ?> - capture marks</h3>
+         <?php
+    $form->setAttributes(array('autocomplete'=>'off','id'=>'frmapplication'))->prepare();
+    echo $this->form()->openTag($form); 
+    ?>   
+         <div class="panel-body">
+                
+             &nbsp;<button type="submit" class="btn btn-sm btn-success" name="save"><i class="glyphicon glyphicon-save"></i> Save </button>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"cqm")); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-remove"></i> Cancel </a>
+            <hr>
+            
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+         <tr>
+             <?php
+          if($item->getFkAtid()->getTypeCode()=="EXAM"){
+              $colspan = 1;
+          }elseif($item->getFkAtid()->getTypeCode()=="ASS" || $item->getFkAtid()->getTypeCode()=="MID"){
+              $colspan = 4;
+          }
+         ?>
+             
+        <th colspan="<?php echo $colspan; ?>"></th>
+        <?php
+        foreach($papers as $paper=>$q){
+        ?>
+        <th colspan="<?php echo count($papers[$paper]); ?>" class="info text-center"><?php echo $paper; ?></th>
+        <?php
+        }
+        ?>
+        
+      </tr>
+      <tr>
+          <?php
+          if($item->getFkAtid()->getTypeCode()=="EXAM"){
+          ?>
+         <th>Examination #</th>
+         <?php
+          }elseif($item->getFkAtid()->getTypeCode()=="ASS" || $item->getFkAtid()->getTypeCode()=="MID"){
+         ?>
+        <th>Registration #</th>
+        <th>Surname</th>
+        <th>First name</th>
+        <th>Gender</th>
+        <?php
+        }
+        foreach ($papers as $paper=>$qheaders){
+            foreach ($qheaders as $qheader){
+        ?>
+        <th width="100">Q<?php echo $qheader->getQuestionNumber(); ?>&nbsp;<input type="checkbox" <?php if($qheader->getInHand()=='0'){ ?> disabled="" checked="" <?php } ?> name="signoff[]" value="<?php echo $qheader->getPkQid(); ?>">&nbsp;
+            <?php if($qheader->getInHand() != '0'){ ?> 
+            <a href="<?php echo $this->url("examination",array("action"=>"iqm","id"=>$qheader->getPkQid())); ?>" class="btn btn-sm text-danger"><i class="glyphicon glyphicon-upload"></i></a></th>
+            <?php } ?> 
+        <?php
+            }
+        }
+        ?>
+      </tr>
+    </thead>
+    <tbody>
+        <input name="fkStaffid" type="hidden" value="<?php echo $item->getFkStaffid()->getPkStaffid(); ?>" />
+        <input name="fkAiid" type="hidden" value="<?php echo $item->getPkAiid(); ?>" />
+      <?php
+     
+      //foreach($form->get('mark')->getIterator() as $studentid=>$markfield){
+        for($studentid = 0; $studentid < count($students); $studentid++){  
+            
+      ?>
+
+      <tr>
+          
+          <?php
+          if($item->getFkAtid()->getTypeCode()=="EXAM"){
+          ?>
+          <td><?php echo $students[$studentid]['EXAMNUMBER']; ?></td>
+          <?php
+          }elseif($item->getFkAtid()->getTypeCode()=="ASS" || $item->getFkAtid()->getTypeCode()=="MID"){
+         ?>
+          
+          <td><?php echo $students[$studentid]['REGNUMBER']; ?></td>
+          <td><?php echo $students[$studentid]['SURNAME']; ?></td>
+        <td><?php echo $students[$studentid]['FIRSTNAME']; ?></td>
+        <td><?php echo $students[$studentid]['GENDER']; ?></td>
+         <?php
+        }
+        foreach ($questions as $question){
+            
+            $id        = (!empty($marks[$question->getPkQid()][$students[$studentid]['STUDENTCLASSID']]['id']))?$marks[$question->getPkQid()][$students[$studentid]['STUDENTCLASSID']]['id']:'';
+            $mark     = (!empty($marks[$question->getPkQid()][$students[$studentid]['STUDENTCLASSID']]['mark']))?$marks[$question->getPkQid()][$students[$studentid]['STUDENTCLASSID']]['mark']:'';
+        ?>
+        <td><input <?php if($question->getInHand()=='0'){ ?> readonly="" <?php } ?> type="text" class="form-control" name="mark[<?php echo $studentid; ?>][<?php echo $question->getPkQid(); ?>]" value="<?php echo $mark; ?>"></td>
+            <input name="student[<?php echo $studentid; ?>][<?php echo $question->getPkQid(); ?>]" type="hidden" value="<?php echo $students[$studentid]['STUDENTCLASSID']; ?>" />
+            <input name="pkQgid[<?php echo $studentid; ?>][<?php echo $question->getPkQid(); ?>]" type="hidden" value="<?php echo $id; ?>" />
+        <?php
+        }
+        ?>
+      </tr>
+      
+      <?php
+      }
+      
+      ?>
+    </tbody>
+</table>
+       <hr>
+       <button type="submit" class="btn btn-sm btn-success" name="save"><i class="glyphicon glyphicon-save"></i> Save </button>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"cqm","id"=>$item->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-remove"></i> Cancel </a>
+            </div>
+            <?php
+            echo $this->form()->closeTag();
+            ?>
+                </div>
+        </div>
+</div>
+        

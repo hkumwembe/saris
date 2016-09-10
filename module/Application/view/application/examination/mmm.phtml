@@ -1,0 +1,153 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#description").html("This process will compile average grades for the students. <br> Click <strong>Start button</strong> to run the process.");
+        $("#btngenerate").html("Start");
+        
+        $("#return").click(function(){
+            $("#action").val(1);
+        });
+        
+        $("#btngenerate").click(function(){
+            $("#btngenerate").prop("disabled",true);
+            $("#description").html("This process may take long, please wait......");
+            $("#progress").html("<center><img src='<?php echo $this->basePath(); ?>/img/ajax-loader.gif' /></center>");
+            var destination = ($("#action").val()==1)?<?php echo $userlevel; ?> - 1:<?php echo $userlevel; ?> + 1;
+            var students = $("input:checkbox:checked").map(function(){
+                  return $(this).val();
+              }).get();
+            $.ajax({
+                type:'POST',
+                url:'/smis/public/examination/gradesignoff',
+                data:"itemid="+<?php echo $item->getPkAiid(); ?>+"&students="+students+"&destination="+destination+"&start=<?php echo $userlevel; ?>",
+                dataType:'JSON',
+                success: function(result){
+                   
+                    $("#description").html(result.title);
+                    $("#progress").html("");
+                    location.reload();
+                    return false;
+                }  
+             });
+        });
+    
+    $('#confirmmodal').on('hide.bs.modal', function () {
+        $("#btngenerate").removeAttr("disabled");
+        $("#progress").html("");
+    }); 
+    });
+</script>
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("Manage module: %s (%s) - %s",$item->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$item->getFkClassmoduleid()->getFkModuleid()->getModuleCode(),$item->getFkClassmoduleid()->getFkClassid()->getClassCode()); ?></h3>
+         <?php
+    //$form->setAttributes(array('autocomplete'=>'off','id'=>'frmapplication'))->prepare();
+    //echo $this->form()->openTag($form); 
+    ?>   
+         <div class="panel-body">
+             <div class="alert alert-info">    
+                 &nbsp;<a data-toggle="modal" data-target="#confirmmodal" id="return" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-align-left"></i> Return grades </a>&nbsp;<a href="<?php //echo $this->url("examination",array("action"=>"importmarks","id"=>$item->getPkAiid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-expand"></i> Standardize </a>&nbsp;<a data-toggle="modal" data-target="#confirmmodal"  class="btn btn-sm btn-success"><i class="glyphicon glyphicon-send"></i> Sign off </a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"signoff","id"=>$item->getFkClassmoduleid()->getFkClassid()->getPkClassid())); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return </a></div>
+            <hr>
+            
+<table class="table table-bordered">
+    <thead>
+        <tr>
+        <th width="2"><input type="checkbox" name="selecttall" /></th>    
+        <th >Registration #</th>
+        <th >Surname</th>
+        <th >First name</th>
+        <th width="70">Gender</th>
+        <th width="5"></th>
+        <?php
+        $initialheaders = $headers;
+        
+        ksort($headers);
+        reset($headers);
+        $startinglevel = key($headers);
+        for ($level = $startinglevel; $level <= count($headers); $level++){
+          
+        ?>
+        <th class="success" width="30"><?php echo $headers[$level]; ?></th>
+        <?php
+        }
+        ?>
+        <th width="5"></th>
+        <th width="90">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    <input name="action" id="action" type="hidden" value="0" />
+        <input name="fkStaffid" type="hidden" value="<?php echo $item->getFkStaffid()->getPkStaffid(); ?>" />
+        <input name="fkAiid" type="hidden" value="<?php echo $item->getPkAiid(); ?>" />
+      <?php
+      foreach($students as $student){
+//          $mark     = (!empty($marks[$students[$studentid]['STUDENTCLASSID']]['mark']))?$marks[$students[$studentid]['STUDENTCLASSID']]['mark']:'';
+//          $id        = (!empty($marks[$students[$studentid]['STUDENTCLASSID']]['id']))?$marks[$students[$studentid]['STUDENTCLASSID']]['id']:'';
+      ?>
+
+      <tr>
+          <input name="pkSmid[<?php //echo $studentid; ?>]" type="hidden" value="<?php //echo $id; ?>" />
+        <td><input name="studentid[]" class="checkbox" type="checkbox" value="<?php echo $student['STUDENT']->getFkStudentclassid()->getPkStudentclassid(); ?>"  /></td> 
+        <td><?php echo $student['STUDENT']->getFkStudentclassid()->getFkStudentprogramid()->getStudentnumber(); ?></td>
+        <td><?php echo $student['STUDENT']->getFkStudentclassid()->getFkStudentid()->getFkUserid()->getSurname(); ?></td>
+        <td><?php echo $student['STUDENT']->getFkStudentclassid()->getFkStudentid()->getFkUserid()->getFirstname(); ?></td>
+        <td><?php echo $student['STUDENT']->getFkStudentclassid()->getFkStudentid()->getFkUserid()->getGender(); ?></td>
+        <td></td>
+            <?php
+        //Get first key
+        
+       
+       
+        $latestDate    = $latestLevel = NULL;
+        for($level = $startinglevel; $level <= count($headers); $level++){
+            
+        ?>
+        <td><input style="width: 50px" readonly="" class="form-control" value="<?php echo array_key_exists($level, $student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()])?$student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()][$level]['GRADE']:""; ?>" /></td>
+        <?php
+            if(array_key_exists($level, $student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()])){
+                if($student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()][$level]['DATE'] > $latestDate){
+                    $latestDate = $student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()][$level]['DATE'];
+                    $latestLevel = $level;
+                }
+            }
+        
+        }
+        
+        $currentlevelDate = $student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()][$userlevel]['DATE'];
+        $status = "Not available";
+        $cssclass = "#0000";
+        //$lastLevelDate = array_key_exists($finallevel, $student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()])?$student['GRADES'][$student['STUDENT']->getFkStudentclassid()->getPkStudentclassid()][$finallevel]['DATE']:NULL;
+        
+        if((($currentlevelDate == $latestDate) || $latestDate == NULL) && $userlevel==$latestLevel){
+            $status = "Outstanding";
+              $cssclass = "#FF000";
+        }elseif(($latestDate > $currentlevelDate) && $userlevel > $latestLevel){
+              $status = "Returned";
+              $cssclass = "#4585f3";
+        }elseif(($latestDate > $currentlevelDate) && $userlevel < $latestLevel){
+              $status = "Signed off";
+              $cssclass = "#009900";
+        }
+        ?>
+        <td></td>
+        <td bgcolor="<?php echo $cssclass; ?>"><font color="#FFFFFF"><?php  echo $status; ?></font></td>
+      </tr>
+      
+      <?php
+      }
+      
+      ?>
+    </tbody>
+</table>
+       <hr>
+       <button type="submit" class="btn btn-sm btn-success" name="save"><i class="glyphicon glyphicon-save"></i> Save </button>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"assessments","id"=>$item->getFkClassmoduleid()->getPkClassmoduleid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-remove"></i> Cancel </a>
+            </div>
+            <?php
+            echo $this->form()->closeTag();
+            ?>
+                </div>
+        </div>
+</div>
+        

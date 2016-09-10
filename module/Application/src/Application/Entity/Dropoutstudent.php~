@@ -1,0 +1,77 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Dropoutstudent
+ *
+ * @ORM\Table(name="dropoutstudent", indexes={@ORM\Index(name="dropoutstatus_idx", columns={"FK_DSTATUSID"}), @ORM\Index(name="selectedyear_idx", columns={"SELECTEDYEAR"}), @ORM\Index(name="loggedby", columns={"LOGGEDBY"})})
+ * @ORM\Entity
+ */
+class Dropoutstudent
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_DSID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pkDsid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="FK_UPLOADID", type="integer", nullable=true)
+     */
+    private $fkUploadid;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DATE_DROUPEDOUT", type="datetime", nullable=true)
+     */
+    private $dateDroupedout;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="DESCRIPTION", type="text", length=65535, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var \Application\Entity\Dropoutstatus
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Dropoutstatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_DSTATUSID", referencedColumnName="PK_DSTATUSID")
+     * })
+     */
+    private $fkDstatusid;
+
+    /**
+     * @var \Application\Entity\Staff
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Staff")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="LOGGEDBY", referencedColumnName="PK_STAFFID")
+     * })
+     */
+    private $loggedby;
+
+    /**
+     * @var \Application\Entity\Academicyear
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Academicyear")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="SELECTEDYEAR", referencedColumnName="PK_ACADEMICPERIODID")
+     * })
+     */
+    private $selectedyear;
+
+
+}
+

@@ -1,0 +1,78 @@
+<?php
+if(empty($period)){
+?>
+<div class="row">
+    <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    
+                <h3 class="page-header">Servicing module lecturer allocation</h3>
+                <hr>
+    <div class="alert alert-danger">
+        <i class="glyphicon glyphicon-warning-sign"></i> No academic year or semester is active. Make sure the academic session is activated to work with this function
+    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<?php
+}else{
+?>
+<div class="row">
+<div class="col col-md-1">
+    &nbsp;
+    </div>
+        <div class="col col-md-10">
+            <div class="panel panel-default">
+                <h3 class="page-header"><?php echo sprintf("%s %s %s",$period->getParentid()->getAcyr(),"semester",$period->getAcyr()); ?> - Servicing module lecturer allocation</h3>
+            <div class="panel-body">
+                
+                <a href="<?php echo $this->url("examination",array("action"=>"ma")); ?>"  class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return </a>&nbsp;<a href="<?php echo $this->url("examination",array("action"=>"lma")); ?>" class="btn btn-sm btn-info "><i class="glyphicon glyphicon-eye-open"></i> Department lecturer allocations </a>&nbsp;<a class="btn btn-sm btn-success"><i class="glyphicon glyphicon-file"></i> Export </a> <br>
+                <hr>
+                <?php
+                if(!empty($servicedmodules)){
+                ?>
+                <table class="table table-bordered table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Class</th>
+                    <th>Module</th>
+                    <th>Department</th>
+                    <th>Lecturer</th>
+                    <th width="50"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  foreach($servicedmodules as $servicedmodule){
+                      if($servicedmodule->getFlag() != "UNABLETOALLOCATE"){
+                  ?>
+
+                  <tr>
+                    <td><?php echo sprintf("%s (%s)",$servicedmodule->getFkClassmoduleid()->getFkClassid()->getClassName(),$servicedmodule->getFkClassmoduleid()->getFkClassid()->getClassCode()); ?></td>
+                    <td><?php echo sprintf("%s (%s)",$servicedmodule->getFkClassmoduleid()->getFkModuleid()->getModuleName(),$servicedmodule->getFkClassmoduleid()->getFkModuleid()->getModuleCode()); ?></td>
+                    <td><?php echo $servicedmodule->getReqdept()->getDeptCode(); ?></td>
+                    <td><?php echo !empty($servicedmodule->getFklmid())?sprintf("%s, %s",$servicedmodule->getFklmid()->getFkStaffid()->getFkUserid()->getSurname(),substr($servicedmodule->getFklmid()->getFkStaffid()->getFkUserid()->getFirstname(),0,1)):"Not assigned" ?></td>
+                  <td><?php if(!empty($servicedmodule->getFklmid())){ ?><a href="<?php echo $this->url("examination",array("action"=>"servicemoduleform","id"=>$servicedmodule->getFkClassmoduleid()->getPkClassmoduleid(),"subparam"=>$servicedmodule->getPkSmid())); ?>" class="btn btn-sm btn-success">Change</a><?php }else{ ?> <a href="<?php echo $this->url("examination",array("action"=>"servicemoduleform","id"=>$servicedmodule->getFkClassmoduleid()->getPkClassmoduleid(),"subparam"=>$servicedmodule->getPkSmid())); ?>" class="btn btn-sm btn-danger">Allocate</a><?php } ?>   </td>
+                  </tr>
+                  
+                  <?php
+                      }
+                  }
+
+                  ?>
+                </tbody>
+            </table>
+             <?php
+                }
+            
+            ?>
+               
+            </div>
+                </div>
+        </div>
+</div>
+<?php
+}
+?>
+        
