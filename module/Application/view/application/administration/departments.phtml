@@ -23,7 +23,7 @@
         <th>Name</th>
         <th>Code</th>
         <th>Head</th>
-        <th width="130"></th>
+        <th width="150"></th>
       </tr>
     </thead>
     <tbody>
@@ -38,6 +38,7 @@
         <td>
             <a href="<?php echo $this->url("administration",array("action"=>"departmentform","id"=>$faculty->getPkFacultyid(),"subid"=>$department->getPkDeptid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
             <a href="<?php echo $this->url("administration",array("action"=>"departmentprograms","id"=>$department->getPkDeptid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"departmentprograms","id"=>$department->getPkDeptid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list-alt"></i></a>
             <a href="<?php //echo $this->url("administration",array("action"=>"departments","id"=>$faculty->getPkFacultyid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
         </td>
       </tr>
