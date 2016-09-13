@@ -31,7 +31,7 @@ class Notice
     /**
      * @var string
      *
-     * @ORM\Column(name="BODY", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="BODY", type="blob", length=65535, nullable=false)
      */
     private $body;
 

@@ -1,0 +1,60 @@
+<div class="row">
+
+        <div class="col col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+            <h3 class="page-header"><?php echo $title; ?></h3>
+            <div class="panel-body">
+                <?php
+                if($subtitle){
+                ?>
+                 <h4><?php echo $subtitle; ?></h4>
+                <hr>
+                <?php
+                }
+                ?>
+                <div class="col text-right"><a href="<?php echo $this->url("administration",array("action"=>"eform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add New</a>  </div>
+            <hr>
+            <?php
+            if(!empty($msg)){
+            ?>
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <?php echo $msg; ?>
+            </div>
+            <?php
+            }
+            ?>
+            <table class="table table-bordered table-striped table-hover" id="searchable">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Head</th>
+        <th width="110"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      foreach($entities as $entity){
+      ?>
+
+      <tr>
+        <td><?php echo $entity->getEntityCode()?></td>
+        <td><?php echo $entity->getEntityName()?></td>
+        <td><?php echo (!empty($entity->getFkStaffid()))?$entity->getFkStaffid()->getFkUserid()->getFirstname()." ".$entity->getFkStaffid()->getFkUserid()->getSurname():"Not assigned"; ?></td>
+        <td><a href="<?php echo $this->url("administration",array("action"=>"eform","id"=>$entity->getPkEntityid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"e","id"=>$entity->getPkEntityid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>
+            <a href="<?php //echo $this->url("administration",array("action"=>"departments","id"=>$faculty->getPkFacultyid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+        </td>
+      </tr>
+      <?php
+      }
+      ?>
+    </tbody>
+</table>
+                
+            </div>
+                </div>
+        </div>
+</div>
+        

@@ -43,14 +43,14 @@ class StudentOnWaiver
     private $otherReason;
 
     /**
-     * @var \Application\Entity\Student
+     * @var \Application\Entity\Staff
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Staff")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="FK_STUDENTID", referencedColumnName="PK_STUDENTID")
+     *   @ORM\JoinColumn(name="CAPTURED_BY", referencedColumnName="PK_STAFFID")
      * })
      */
-    private $fkStudentid;
+    private $capturedBy;
 
     /**
      * @var \Application\Entity\Sponsor
@@ -63,14 +63,14 @@ class StudentOnWaiver
     private $fkSponsorid;
 
     /**
-     * @var \Application\Entity\Staff
+     * @var \Application\Entity\Student
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Staff")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Student")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="CAPTURED_BY", referencedColumnName="PK_STAFFID")
+     *   @ORM\JoinColumn(name="FK_STUDENTID", referencedColumnName="PK_STUDENTID")
      * })
      */
-    private $capturedBy;
+    private $fkStudentid;
 
 
 
@@ -157,27 +157,27 @@ class StudentOnWaiver
     }
 
     /**
-     * Set fkStudentid
+     * Set capturedBy
      *
-     * @param \Application\Entity\Student $fkStudentid
+     * @param \Application\Entity\Staff $capturedBy
      *
      * @return StudentOnWaiver
      */
-    public function setFkStudentid(\Application\Entity\Student $fkStudentid = null)
+    public function setCapturedBy(\Application\Entity\Staff $capturedBy = null)
     {
-        $this->fkStudentid = $fkStudentid;
+        $this->capturedBy = $capturedBy;
 
         return $this;
     }
 
     /**
-     * Get fkStudentid
+     * Get capturedBy
      *
-     * @return \Application\Entity\Student
+     * @return \Application\Entity\Staff
      */
-    public function getFkStudentid()
+    public function getCapturedBy()
     {
-        return $this->fkStudentid;
+        return $this->capturedBy;
     }
 
     /**
@@ -205,26 +205,26 @@ class StudentOnWaiver
     }
 
     /**
-     * Set capturedBy
+     * Set fkStudentid
      *
-     * @param \Application\Entity\Staff $capturedBy
+     * @param \Application\Entity\Student $fkStudentid
      *
      * @return StudentOnWaiver
      */
-    public function setCapturedBy(\Application\Entity\Staff $capturedBy = null)
+    public function setFkStudentid(\Application\Entity\Student $fkStudentid = null)
     {
-        $this->capturedBy = $capturedBy;
+        $this->fkStudentid = $fkStudentid;
 
         return $this;
     }
 
     /**
-     * Get capturedBy
+     * Get fkStudentid
      *
-     * @return \Application\Entity\Staff
+     * @return \Application\Entity\Student
      */
-    public function getCapturedBy()
+    public function getFkStudentid()
     {
-        return $this->capturedBy;
+        return $this->fkStudentid;
     }
 }

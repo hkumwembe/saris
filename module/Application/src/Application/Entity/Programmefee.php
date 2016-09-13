@@ -36,18 +36,6 @@ class Programmefee
     private $fee = '0';
 
     /**
-     * @var \Application\Entity\Program
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Application\Entity\Program")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="FK_PROGRAMID", referencedColumnName="PK_PROGRAMID")
-     * })
-     */
-    private $fkProgramid;
-
-    /**
      * @var \Application\Entity\Entrymanner
      *
      * @ORM\Id
@@ -58,6 +46,18 @@ class Programmefee
      * })
      */
     private $fkEntrymannerid;
+
+    /**
+     * @var \Application\Entity\Program
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Program")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_PROGRAMID", referencedColumnName="PK_PROGRAMID")
+     * })
+     */
+    private $fkProgramid;
 
 
 
@@ -134,30 +134,6 @@ class Programmefee
     }
 
     /**
-     * Set fkProgramid
-     *
-     * @param \Application\Entity\Program $fkProgramid
-     *
-     * @return Programmefee
-     */
-    public function setFkProgramid(\Application\Entity\Program $fkProgramid)
-    {
-        $this->fkProgramid = $fkProgramid;
-
-        return $this;
-    }
-
-    /**
-     * Get fkProgramid
-     *
-     * @return \Application\Entity\Program
-     */
-    public function getFkProgramid()
-    {
-        return $this->fkProgramid;
-    }
-
-    /**
      * Set fkEntrymannerid
      *
      * @param \Application\Entity\Entrymanner $fkEntrymannerid
@@ -179,5 +155,29 @@ class Programmefee
     public function getFkEntrymannerid()
     {
         return $this->fkEntrymannerid;
+    }
+
+    /**
+     * Set fkProgramid
+     *
+     * @param \Application\Entity\Program $fkProgramid
+     *
+     * @return Programmefee
+     */
+    public function setFkProgramid(\Application\Entity\Program $fkProgramid)
+    {
+        $this->fkProgramid = $fkProgramid;
+
+        return $this;
+    }
+
+    /**
+     * Get fkProgramid
+     *
+     * @return \Application\Entity\Program
+     */
+    public function getFkProgramid()
+    {
+        return $this->fkProgramid;
     }
 }

@@ -1,0 +1,64 @@
+<?php
+
+namespace Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Programmefee
+ *
+ * @ORM\Table(name="programmefee", indexes={@ORM\Index(name="programme", columns={"FK_PROGRAMID"}), @ORM\Index(name="entry", columns={"FK_ENTRYMANNERID"})})
+ * @ORM\Entity
+ */
+class Programmefee
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="PK_PROGRAMFEEID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $pkProgramfeeid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="GROUPING", type="text", nullable=true)
+     */
+    private $grouping = '1';
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="FEE", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $fee = '0';
+
+    /**
+     * @var \Application\Entity\Entrymanner
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Entrymanner")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_ENTRYMANNERID", referencedColumnName="PK_ENTRYMANNERID")
+     * })
+     */
+    private $fkEntrymannerid;
+
+    /**
+     * @var \Application\Entity\Program
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Application\Entity\Program")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="FK_PROGRAMID", referencedColumnName="PK_PROGRAMID")
+     * })
+     */
+    private $fkProgramid;
+
+
+}
+

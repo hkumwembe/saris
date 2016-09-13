@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sponsoredstudent
  *
- * @ORM\Table(name="sponsoredstudent", indexes={@ORM\Index(name="sponsor_id", columns={"FK_SPONSORID"}), @ORM\Index(name="sponsoredstudent", columns={"FK_STUDENTID"})})
+ * @ORM\Table(name="sponsoredstudent", indexes={@ORM\Index(name="sponsor_id", columns={"FK_SPONSORID"}), @ORM\Index(name="sponsoredstudent", columns={"FK_STUDENTPROGRAMID"})})
  * @ORM\Entity
  */
 class Sponsoredstudent
@@ -22,14 +22,14 @@ class Sponsoredstudent
     private $pkSsid;
 
     /**
-     * @var \Application\Entity\Student
+     * @var \Application\Entity\Studentprogram
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Student")
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Studentprogram")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="FK_STUDENTID", referencedColumnName="PK_STUDENTID")
+     *   @ORM\JoinColumn(name="FK_STUDENTPROGRAMID", referencedColumnName="PK_STUDENTPROGRAMID")
      * })
      */
-    private $fkStudentid;
+    private $fkStudentprogramid;
 
     /**
      * @var \Application\Entity\Sponsor

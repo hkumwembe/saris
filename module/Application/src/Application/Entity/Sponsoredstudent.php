@@ -22,7 +22,7 @@ class Sponsoredstudent
     private $pkSsid;
 
     /**
-     * @var \Application\Entity\Student
+     * @var \Application\Entity\Studentprogram
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Studentprogram")
      * @ORM\JoinColumns({
