@@ -140,7 +140,7 @@ return array(
             'administration' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/administration[/:action][/:id][/:subid]',
+                    'route'    => '/administration[/:action][/:id][/:subid][/:prm3]',
                     'constraints' => array(
                                     'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ),

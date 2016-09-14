@@ -56,6 +56,38 @@ class Preferences extends Commonmodel {
     }
     
     /*
+     * Save entity
+     */
+    public function saveEntity($object) {
+        
+         if(!$object->getPkEntityid()){
+                $oe = new \Application\Entity\Entity();
+         }else{
+                $oe = $this->em->getRepository("\Application\Entity\Entity")->find($object->getPkEntityid());
+         }
+
+            //Set faculty object values to be saved
+            $oe->setFkStaffid($object->getFkStaffid());
+            $oe->setEntityName($object->getEntityName());
+            $oe->setEntityCode($object->getEntityCode());
+            $oe->setLevel($object->getLevel());
+            $oe->setParentEntity($object->getParentEntity());
+            
+            try{
+                //Commit values set to the object 
+                if(!$object->getPkEntityid()){
+                    $this->em->persist($oe);
+                }
+                //Save values if just updating record
+                $this->em->flush($oe);
+                return $oe;
+
+            }catch(Exception $e){
+                throw($e->getMessages());
+            }
+    }
+    
+    /*
      * Save hostel
      */
     public function saveHostel($object) {

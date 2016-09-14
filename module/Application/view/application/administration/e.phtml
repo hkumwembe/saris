@@ -1,3 +1,35 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        //Edit botton tooltip behaviour
+        $( ".edit" ).tooltip({
+            show: {
+              effect: "slideDown",
+              delay: 50
+            }
+          });
+          
+         $( ".programs" ).tooltip({
+            show: {
+              effect: "slideDown",
+              delay: 50
+            }
+          });
+          
+          $( ".subelements" ).tooltip({
+            show: {
+              effect: "slideDown",
+              delay: 50
+            }
+          });
+          
+          $( ".deleteelement" ).tooltip({
+            show: {
+              effect: "slideDown",
+              delay: 50
+            }
+          });
+    });
+</script>
 <div class="row">
 
         <div class="col col-md-10 col-md-offset-1">
@@ -12,7 +44,16 @@
                 <?php
                 }
                 ?>
-                <div class="col text-right"><a href="<?php echo $this->url("administration",array("action"=>"eform")); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add New</a>  </div>
+                <div class="col text-right"><a href="<?php echo $this->url("administration",array("action"=>"eform","id"=>$urlparam,"subid"=>$id)); ?>" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-plus"></i> Add New</a> &nbsp; 
+                    <?php
+                    if($subtitle){
+                    ?>
+                    <a href="<?php echo $this->url("administration",array("action"=>"e","id"=>$parentid)); ?>" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-backward"></i> Return </a>  
+                     <?php
+                    }
+                    ?>
+                </div>
+                   
             <hr>
             <?php
             if(!empty($msg)){
@@ -30,7 +71,7 @@
         <th>Code</th>
         <th>Name</th>
         <th>Head</th>
-        <th width="110"></th>
+        <th width="150"></th>
       </tr>
     </thead>
     <tbody>
@@ -42,9 +83,11 @@
         <td><?php echo $entity->getEntityCode()?></td>
         <td><?php echo $entity->getEntityName()?></td>
         <td><?php echo (!empty($entity->getFkStaffid()))?$entity->getFkStaffid()->getFkUserid()->getFirstname()." ".$entity->getFkStaffid()->getFkUserid()->getSurname():"Not assigned"; ?></td>
-        <td><a href="<?php echo $this->url("administration",array("action"=>"eform","id"=>$entity->getPkEntityid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-edit"></i></a>
-            <a href="<?php echo $this->url("administration",array("action"=>"e","id"=>$entity->getPkEntityid())); ?>" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-list"></i></a>
-            <a href="<?php //echo $this->url("administration",array("action"=>"departments","id"=>$faculty->getPkFacultyid())); ?>" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+        <td>
+            <a href="<?php echo $this->url("administration",array("action"=>"eform","id"=>$urlparam,"subid"=>$id,"prm3"=>$entity->getPkEntityid())); ?>" class="edit btn btn-sm btn-info" title="Edit element"><i class="glyphicon glyphicon-edit"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"ep","id"=>$entity->getPkEntityid())); ?>" class="programs btn btn-sm btn-info" title="Element programs"><i class="glyphicon glyphicon-folder-open"></i></a>
+            <a href="<?php echo $this->url("administration",array("action"=>"e","id"=>$entity->getPkEntityid())); ?>" class="subelements btn btn-sm btn-info" title="Child elements/units"><i class="glyphicon glyphicon-list"></i></a>
+            <a href="<?php //echo $this->url("administration",array("action"=>"departments","id"=>$faculty->getPkFacultyid())); ?>" class="deleteelement btn btn-sm btn-danger" title="Delete element"><i class="glyphicon glyphicon-trash"></i></a>
         </td>
       </tr>
       <?php

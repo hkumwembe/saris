@@ -1,0 +1,59 @@
+<div class="row">
+        <div class="col col-md-12">
+            <div class="col col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <h4 class="page-header">Faculty details</h4>
+                    <div class="panel-body">
+<?php
+    
+    $form->setAttributes(array('name'=>'formsubmit','class'=>'form-horizontal'))->prepare();
+    echo $this->form()->openTag($form);
+    $name = (!empty($details))?$details->getEntityName():$form->get('Entity')->get('entityName')->getValue();
+    $code = (!empty($details))?$details->getEntityCode():$form->get('Entity')->get('entityCode')->getValue();
+    $user = (!empty($details))?$details->getFkStaffid():$form->get('Entity')->get('fkStaffid')->getValue();
+    $id   = (!empty($details))?$details->getPkEntityid():$form->get('Entity')->get('pkEntityid')->getValue();
+ ?>
+                            
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Entity')->get('entityName')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Entity')->get('entityName')->setValue($name)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Entity')->get('entityName')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Entity')->get('entityCode')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Entity')->get('entityCode')->setValue($code)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Entity')->get('entityCode')); ?></div>
+    </div>
+
+    <div class="form-group">   
+       <div class="col-sm-3"><?php echo $this->formLabel($form->get('Entity')->get('fkStaffid')); ?> </div>
+       <div class="col-sm-5">
+           <?php echo $this->formElement($form->get('Entity')->get('fkStaffid')->setValue($user)); ?>
+           <?php echo $this->formHidden($form->get('Entity')->get('pkEntityid')->setValue($id)); ?>
+       </div>
+       <div class="col-sm-4"><?php echo $this->formElementErrors($form->get('Entity')->get('fkStaffid')); ?></div>
+    </div>
+                            
+
+    <div class="form-group">   
+       <div class="col-sm-3"></div>
+       <div class="col-sm-5">
+           <input type="submit" name="save" class="btn btn-success" value="Save" />
+           <a href="<?php echo $this->url("administration",array("action"=>"e")); ?>" class="btn btn-warning">Cancel</a>
+       </div>
+       <div class="col-sm-4"></div>
+    </div>                            
+<?php
+ echo $this->form()->closeTag();
+?>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -55,29 +55,14 @@ class AdministrationController extends AbstractActionController
         return new ViewModel();
     }
     
-    /*
-     * Redirect to faculties view
-     */
-//    public function facultiesAction(){
-//        
-//        $successMsg = "";
-//        $flashMessenger = $this->flashMessenger();
-//        if($flashMessenger->hasSuccessMessages()){
-//            $successMsg = implode("<br>", $flashMessenger->getSuccessMessages());
-//        }
-//        
-//        
-//        $faculties = $this->em->getRepository("\Application\Entity\Faculty")->findAll();
-//        return new ViewModel(array("faculties"=>$faculties,"msg"=>$successMsg));
-//    }
-    
+   
     /*
      * Redirect to entity view
      */
     public function eAction(){
         
         $entities           = $condition = array();
-        $successMsg         = "";
+        $successMsg         = $parentid  = "";
         $flashMessenger     = $this->flashMessenger();
         if($flashMessenger->hasSuccessMessages()){
             $successMsg = implode("<br>", $flashMessenger->getSuccessMessages());
@@ -88,6 +73,7 @@ class AdministrationController extends AbstractActionController
             $title     = "Faculties";
             $subtitle  = "";
             $condition = array("level"=>'0');
+            $urlparam  = 0;
         }else{
             //Get entity record
             $entity    = $this->em->getRepository("\Application\Entity\Entity")->find($id);
@@ -96,106 +82,72 @@ class AdministrationController extends AbstractActionController
                 $title     = ($level ==1)?"Departments":"Units";
                 $subtitle  = sprintf("%s (%s)",$entity->getEntityName(),$entity->getEntityCode());
                 $condition = array("parentEntity"=>$id,"level"=>$level);
+                $urlparam  = 1;
+                $parentid  = !empty($entity->getParentEntity())?$entity->getParentEntity()->getPkEntityid():NULL;
             }
         }
         
         $entities      = $this->em->getRepository("\Application\Entity\Entity")->findBy($condition);
-        return new ViewModel(array("entities"=>$entities,"title"=>$title,"subtitle"=>$subtitle,"msg"=>$successMsg));
+        return new ViewModel(array("entities"=>$entities,"title"=>$title,"subtitle"=>$subtitle,"msg"=>$successMsg,"id"=>$id,"urlparam"=>$urlparam,"parentid"=>$parentid));
     }
     
-    /*
-     * Redirect to faculty form view and save faculty information
-     */
-//    public function facultyformAction(){
-//        
-//        $facultydetails = "";
-//        $form = new \Application\Form\Faculty($this->em);
-//        $form->bind($this->request->getPost());
-//         //If edit faculty has been selected then select from database
-//        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-//        if($id){
-//            $facultydetails = $this->em->getRepository("\Application\Entity\Faculty")->find($id);
-//        }
-//
-//        if($this->request->getPost('save')){
-//            $form->setData($this->request->getPost());
-//            if($form->isValid()){
-//                $formdata = $form->getData();
-//
-//                //Check if action is to update record
-//                if($formdata['Faculty']['pkFacultyid']){
-//                    //Get existing record information
-//                    $entity = $this->em->getRepository('\Application\Entity\Faculty')->find($formdata['Faculty']['pkFacultyid']);
-//                }else{
-//                    //Set new entity
-//                    $entity = new \Application\Entity\Faculty();
-//                }
-//                
-//                //Check if staff has been selected
-//                $staffid = ($formdata['Faculty']['fkStaffid'])?$this->em->getRepository('\Application\Entity\Staff')->find($formdata['Faculty']['fkStaffid']):NULL;
-//
-//                //Initialize fields
-//                $entity->setFacultyName($formdata['Faculty']['facultyName']);
-//                $entity->setFacultyCode($formdata['Faculty']['facultyCode']);
-//                $entity->setFkStaffid($staffid);
-//                
-//                if($this->preferences->saveFaculty($entity)){
-//                    //Assign user deans role
-//                    if($staffid){
-//                        $role  = $this->em->getRepository("\Application\Entity\Role")->findOneBy(array("roleName"=>"DEAN"));
-//                        $user = $staffid->getFkUserid();
-//                        $user->setFkRoleid($role);
-//                        $this->preferences->saveUser($user);
-//                    }
-//                    //Set success message and then redirect to view
-//                    $this->flashMessenger()->addSuccessMessage("Faculty information saved");
-//                    $this->redirect()->toRoute('administration', array('action'=>'faculties'));
-//                }
-//                
-//                
-//            }
-//            
-//        }
-//        return new ViewModel(array("form"=>$form,"details"=>$facultydetails));
-//    }
     
     /*
      * Redirect to entity form view and save entity information
+     * 
      */
     public function eformAction(){
         
-        $entitydetails = "";
+        $entitydetails = $parentdetails = "";
         $form = new \Application\Form\Entity($this->em);
         $form->bind($this->request->getPost());
-         //If edit faculty has been selected then select from database
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        if($id){
-            $entitydetails = $this->em->getRepository("\Application\Entity\Entity")->find($id);
+        $parententityid = NULL;
+        
+        //Get url parameters. 
+        $parentid          = $this->getEvent()->getRouteMatch()->getParam('subid');
+        $childid          = $this->getEvent()->getRouteMatch()->getParam('prm3');
+        $levelgroup     = $this->getEvent()->getRouteMatch()->getParam('id'); //0 = Top level, 1 = lower level 
+        
+        //Get actual ID
+        if($levelgroup == 0){
+            $id = $parentid;
         }
-
+        else{
+            $id = $childid;
+            $parentdetails = $this->em->getRepository("\Application\Entity\Entity")->find($parentid);
+        }
+        
+        if($id){
+            $entitydetails = $this->em->getRepository("\Application\Entity\Entity")->find($id); 
+        }
+        
         if($this->request->getPost('save')){
             $form->setData($this->request->getPost());
             if($form->isValid()){
                 $formdata = $form->getData();
-
-                //Check if action is to update record
-                if($formdata['Faculty']['pkFacultyid']){
-                    //Get existing record information
-                    $entity = !empty($entitydetails)?$entitydetails:new \Application\Entity\Faculty();
-                }else{
-                    //Set new entity
-                    $entity = new \Application\Entity\Faculty();
-                }
+                $level = 0;
                 
+                $entity = !empty($entitydetails)?$entitydetails:new \Application\Entity\Entity();
+             
                 //Check if staff has been selected
                 $staffid = ($formdata['Faculty']['fkStaffid'])?$this->em->getRepository('\Application\Entity\Staff')->find($formdata['Faculty']['fkStaffid']):NULL;
 
                 //Initialize fields
-                $entity->setFacultyName($formdata['Faculty']['facultyName']);
-                $entity->setFacultyCode($formdata['Faculty']['facultyCode']);
+                $entity->setEntityName($formdata['Entity']['entityName']);
+                $entity->setEntityCode($formdata['Entity']['entityCode']);
                 $entity->setFkStaffid($staffid);
                 
-                if($this->preferences->saveFaculty($entity)){
+                if($parentdetails){
+                    //$parententity = $this->em->getRepository('\Application\Entity\Staff')->findOneBy(array("parentEntry"=>$parententityid));
+                    $entity->setParentEntity($parentdetails);
+                    $level           = (int)$parentdetails->getLevel() + 1;
+                    $parententityid  = $parentdetails->getPkEntityid();
+                    
+                }
+                
+                $entity->setLevel($level);
+                
+                if($this->preferences->saveEntity($entity)){
                     //Assign user deans role
                     if($staffid){
                         $role  = $this->em->getRepository("\Application\Entity\Role")->findOneBy(array("roleName"=>"DEAN"));
@@ -205,14 +157,14 @@ class AdministrationController extends AbstractActionController
                     }
                     //Set success message and then redirect to view
                     $this->flashMessenger()->addSuccessMessage("Entity information saved");
-                    $this->redirect()->toRoute('administration', array('action'=>'e'));
+                    $this->redirect()->toRoute('administration', array('action'=>'e','id'=>$parententityid));
                 }
                 
                 
             }
             
         }
-        return new ViewModel(array("form"=>$form,"details"=>$facultydetails));
+        return new ViewModel(array("form"=>$form,"details"=>$entitydetails));
     }
     
     
@@ -289,97 +241,12 @@ class AdministrationController extends AbstractActionController
                     $this->flashMessenger()->addSuccessMessage("Module successfully saved");
                     $this->redirect()->toRoute('administration', array('action'=>'modules'));
                 }
-                
-                
+ 
             }
             
         }
         return new ViewModel(array("form"=>$form,"details"=>$moduledetails));
     }   
-    
-    
-    public function departmentsAction(){
-
-        $successMsg = "";
-        $flashMessenger = $this->flashMessenger();
-        if($flashMessenger->hasSuccessMessages()){
-            $successMsg = implode("<br>", $flashMessenger->getSuccessMessages());
-        }
-        
-        $facultyid = $this->getEvent()->getRouteMatch()->getParam('id');
-        //Get faculty information
-        $faculty   = $this->em->getRepository("\Application\Entity\Faculty")->find($facultyid);
-        //Get all departments belonging to faculty
-        $departments = $this->em->getRepository("\Application\Entity\Department")->findBy(array("fkFacultyid"=>$facultyid));
-        return new ViewModel(array("departments"=>$departments,"msg"=>$successMsg,"faculty"=>$faculty));
-    }
-    
-    /*
-     * Redirect to faculty form view and save faculty information
-     */
-    public function departmentformAction(){
-        
-        $departmentdetails = "";
-        $id = $this->getEvent()->getRouteMatch()->getParam('id');
-        $deptid = $this->getEvent()->getRouteMatch()->getParam('subid');
-        $form = new \Application\Form\Department($this->em,$deptid);
-        $form->bind($this->request->getPost());
-        
-         //If edit faculty has been selected then select from database
-        
-        if($deptid){
-            $departmentdetails = $this->em->getRepository("\Application\Entity\Department")->find($deptid);
-        }
-        
-        //Get faculty details
-        $faculty = $this->em->getRepository("\Application\Entity\Faculty")->find($id);
-        
-        if($this->request->getPost('save')){
-            $form->setData($this->request->getPost());
-            if($form->isValid()){
-                $formdata = $form->getData();
-               
-                //Check if action is to update record
-                if($formdata['Department']['pkDeptid']){
-                    //Get existing record information
-                    $entity = $this->em->getRepository('\Application\Entity\Department')->find($formdata['Department']['pkDeptid']);
-                }else{
-                    //Set new entity
-                    $entity = new \Application\Entity\Department();
-                }
-                
-                //Check if staff has been selected
-                $staffid = (!empty($formdata['Department']['fkStaffid']))?$this->em->getRepository('\Application\Entity\Staff')->find($formdata['Department']['fkStaffid']):NULL;
-                
-                //Get faculty entity
-                $facultyentity = $this->em->getRepository('\Application\Entity\Faculty')->find($formdata['Department']['fkFacultyid']);
-                
-                //Initialize fields
-                $entity->setDeptName($formdata['Department']['deptName']);
-                $entity->setDeptCode($formdata['Department']['deptCode']);
-                $entity->setFkFacultyid($facultyentity);
-                $entity->setFkStaffid($staffid);
-                
-                if($this->preferences->saveDepartment($entity)){
-                    //Allocate staff to head role
-                    if($staffid){
-                        $role  = $this->em->getRepository("\Application\Entity\Role")->findOneBy(array("roleName"=>"HOD"));
-                        $user = $staffid->getFkUserid();
-                        $user->setFkRoleid($role);
-                        $this->preferences->saveUser($user);
-                    }
-                    //Set success message and then redirect to view
-                    $this->flashMessenger()->addSuccessMessage("Department saved");
-                    $this->redirect()->toRoute('administration', array('action'=>'departments',"id"=>$formdata['Department']['fkFacultyid']));
-                }
-                
-                
-            }
-            
-        }
-        
-        return new ViewModel(array("form"=>$form,"details"=>$departmentdetails,"faculty"=>$faculty));
-    }
     
      public function departmentprogramsAction(){
 
@@ -412,6 +279,26 @@ class AdministrationController extends AbstractActionController
         $programs = $this->em->getRepository("\Application\Entity\Program")->findBy(array("fkDeptid"=>$deptid));
         return new ViewModel(array("programs"=>$programs,"msg"=>$successMsg,"department"=>$department,"initialprogram"=>$initialprogram,"classes"=>$classes));
     }
+    
+    public function epAction(){
+
+        $successMsg = "";
+        $classes = array();
+        $flashMessenger = $this->flashMessenger();
+        if($flashMessenger->hasSuccessMessages()){
+            $successMsg = implode("<br>", $flashMessenger->getSuccessMessages());
+        }
+        
+        $entityid = $this->getEvent()->getRouteMatch()->getParam('id');
+        //$cohortid = $this->getEvent()->getRouteMatch()->getParam('subid');
+        //Get faculty information
+        $entity   = $this->em->getRepository("\Application\Entity\Entity")->find($entityid);
+        
+        //Get a pool of cohorts belonging to entity 
+        $cohorts = $this->em->getRepository("\Application\Entity\Cohort")->findBy(array("fkEntityid"=>$entityid));
+        return new ViewModel(array("cohorts"=>$cohorts,"msg"=>$successMsg,"entity"=>$entity));
+    }
+    
     
     /*
      * Redirect to program form view and save program information
